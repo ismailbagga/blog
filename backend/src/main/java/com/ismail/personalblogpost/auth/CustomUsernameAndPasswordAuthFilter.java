@@ -6,14 +6,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +20,13 @@ import java.io.IOException;
 public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager ;
+    private  final JwToken jwToken ;
 
-    public CustomUsernameAndPasswordAuthFilter(AuthenticationManager authenticationManager) {
+    public CustomUsernameAndPasswordAuthFilter(AuthenticationManager authenticationManager, JwToken jwToken) {
         super(authenticationManager);
         super.setFilterProcessesUrl("/api/v1/login");
         this.authenticationManager = authenticationManager;
+        this.jwToken = jwToken;
     }
 
 
@@ -49,7 +49,8 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        var tokens = new TokenContainer("accessToken","refreshToken") ;
+        var principal = (UserDetails) authResult.getPrincipal() ;
+        var tokens = jwToken.createJwtToken(principal) ;
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
     }
 
