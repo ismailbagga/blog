@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,14 +25,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder()
-                .username("mike")
-                .password(passwordEncoder.encode("master"))
-                .authorities("READ")
-                .build();
-        return  new InMemoryUserDetailsManager(user) ;
-    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return  new BCryptPasswordEncoder() ;
@@ -39,7 +32,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   AuthenticationManager authenticationManager,
                                                    CustomUsernameAndPasswordAuthFilter authFilter,
                                                    CustomAuthorizationFilter authorizationFilter
                                                    ) throws Exception {
@@ -56,14 +48,14 @@ public class SecurityConfig {
     }
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
-//                                                       InMemoryUserDetailsManager inMemoryUserDetailsManager,
                                                        AuthService authService ,
                                                        PasswordEncoder passwordEncoder
     ) throws Exception {
         var builder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) ;
-        return builder.userDetailsService(authService)
-                .passwordEncoder(passwordEncoder)
-                .and()
-                .build() ;
+        var provider = new DaoAuthenticationProvider() ;
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(authService);
+        provider.setHideUserNotFoundExceptions(false);
+        return builder.authenticationProvider(provider).parentAuthenticationManager(null).build() ;
     }
 }

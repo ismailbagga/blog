@@ -17,10 +17,7 @@ public class BruteForcingStopperService {
     ;
 
     private final UserRepository userRepository;
-    @Value("${brute.force.cache.max}")
-    private int cacheMaxLimit = 1000;
-    @Value("${brute.force.max_logging_attempts}")
-    private int maxLoggingAttempts = 10;
+    private final int cacheMaxLimit = 1000;
 
     private final ConcurrentHashMap<String, LoginAttempt> attemptsCache = new ConcurrentHashMap<>();
     private final Clock clock;
@@ -42,11 +39,11 @@ public class BruteForcingStopperService {
             attemptsCache.put(username, new LoginAttempt(1, LocalDateTime.now(clock)));
             return;
         }
+        int maxLoggingAttempts = 10;
         if (attempt.count + 1 >= maxLoggingAttempts) {
             var result = userRepository.findByUsername(username);
             if (result.isEmpty()) return;
             var user = result.get();
-            user.setLocked(true);
             user.setUnlockedAt(LocalDateTime.now(clock).plusDays(1));
 //            Remove all Login Attempts of this user
             attemptsCache.remove(username);

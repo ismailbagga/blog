@@ -26,9 +26,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
     private boolean enabled = false ;
-    private int  loginAttempts = 0  ;
     private int version = 0 ;
-    private boolean locked = false ;
     private LocalDateTime unlockedAt ;
     @Enumerated(EnumType.STRING)
     private UserRoles role;
@@ -63,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return unlockedAt == null || unlockedAt.isBefore(LocalDateTime.now());
     }
 
     @Override
@@ -76,7 +74,5 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    public void incrementLoginAttempts() {
-        this.loginAttempts++ ;
-    }
+
 }

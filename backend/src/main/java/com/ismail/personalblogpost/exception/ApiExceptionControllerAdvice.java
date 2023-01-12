@@ -1,5 +1,10 @@
 package com.ismail.personalblogpost.exception;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.key.ZonedDateTimeKeyDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +15,7 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class ApiExceptionControllerAdvice {
 
-    public record  ExceptionMessage(String message , Throwable error , HttpStatus status , ZonedDateTime timestamp) {}
+    public record  ExceptionMessage(String message , Throwable error , HttpStatus status ,@JsonSerialize(using = ZonedDateTimeSerializer.class) ZonedDateTime timestamp) {}
     @ExceptionHandler(value = APIException.class)
     public ResponseEntity<ExceptionMessage>  apiExceptionHandler(APIException exception) {
         var exceptionMessage = new ExceptionMessage(

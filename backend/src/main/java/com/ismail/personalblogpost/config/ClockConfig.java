@@ -7,7 +7,10 @@ import java.time.Clock;
 
 @Configuration
 public class ClockConfig {
-
+    @Bean
+    public Clock getClock() {
+        return Clock.systemUTC();
+    }
 
 
 }
