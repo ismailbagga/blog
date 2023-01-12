@@ -20,7 +20,7 @@ public class JwToken {
     public static  final String AUTHORIZATION = "authorization" ;
     public static  final String TOKEN_PREFIX = "Bearer " ;
     public  static final String ACCESS_TOKEN_HEADER = "access_token" ;
-    public  static final String REFRESH_TOKEN_HEADER = "refresh_token" ;
+    public  static final String REFRESH_TOKEN_COOKIE = "jit" ;
     @Value("${JWT.access_secret_key}")
     private String accessSecret ;
     @Value("${JWT.refresh_secret_key}")
@@ -36,15 +36,15 @@ public class JwToken {
 
 
 
-    public TokenContainer createJwtToken(UserDetails userDetails) {
-        var accessToken = TOKEN_PREFIX + generateAccessToken(userDetails) ;
-        var refreshToken = TOKEN_PREFIX + generateRefreshToken(userDetails.getUsername()) ;
+    public TokenContainer createJwtTokens(UserDetails userDetails) {
+        var accessToken =  generateAccessToken(userDetails) ;
+        var refreshToken = generateRefreshToken(userDetails.getUsername()) ;
         return new TokenContainer(accessToken,refreshToken) ;
     }
     public String generateAccessToken(UserDetails userDetails) {
         var accessAlgorithm = getAccessAlgorithm() ;
         var authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        return  JWT.create()
+        return  TOKEN_PREFIX + JWT.create()
                 .withClaim("authorities",authorities)
                 .withSubject(userDetails.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000L * 60 * accessTokenExpirationTimeInSeconds))
@@ -54,13 +54,17 @@ public class JwToken {
         var refreshAlgorithm = getRefreshAlgorithm() ;
         return  JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000L * 60 * accessTokenExpirationTimeInSeconds))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000L * 60 * 60 *  accessTokenExpirationTimeInSeconds))
                 .sign(refreshAlgorithm) ;
     }
     public DecodedJWT verifyAccessToken(String token) {
         if ( !token.startsWith(TOKEN_PREFIX)) throw  new JWTDecodeException("token must start with bearer") ;
         var verifier = JWT.require(getAccessAlgorithm()).build() ;
         return verifier.verify(token.replace(TOKEN_PREFIX,"")) ;
+    }
+    public DecodedJWT verifyRefreshToken(String token) {
+        var verifier = JWT.require(getRefreshAlgorithm()).build() ;
+        return verifier.verify(token) ;
     }
     public Algorithm getAccessAlgorithm() {
         return Algorithm.HMAC256(accessSecret) ;

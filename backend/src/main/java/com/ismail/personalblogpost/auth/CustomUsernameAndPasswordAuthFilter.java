@@ -50,7 +50,7 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         var principal = (UserDetails) authResult.getPrincipal() ;
-        var tokens = jwToken.createJwtToken(principal) ;
+        var tokens = jwToken.createJwtTokens(principal) ;
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
     }
 

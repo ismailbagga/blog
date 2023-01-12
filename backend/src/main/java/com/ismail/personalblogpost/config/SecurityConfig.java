@@ -1,9 +1,11 @@
 package com.ismail.personalblogpost.config;
 
+import com.ismail.personalblogpost.auth.AuthService;
 import com.ismail.personalblogpost.auth.CustomAuthorizationFilter;
 import com.ismail.personalblogpost.auth.CustomUsernameAndPasswordAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,8 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.builder()
                 .username("mike")
                 .password(passwordEncoder.encode("master"))
@@ -45,7 +47,7 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) ;
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth").permitAll()
+                .requestMatchers("/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated() ;
 
         http.addFilter(authFilter) ;
@@ -54,11 +56,12 @@ public class SecurityConfig {
     }
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
-                                                       InMemoryUserDetailsManager inMemoryUserDetailsManager,
+//                                                       InMemoryUserDetailsManager inMemoryUserDetailsManager,
+                                                       AuthService authService ,
                                                        PasswordEncoder passwordEncoder
     ) throws Exception {
         var builder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) ;
-        return builder.userDetailsService(inMemoryUserDetailsManager)
+        return builder.userDetailsService(authService)
                 .passwordEncoder(passwordEncoder)
                 .and()
                 .build() ;
