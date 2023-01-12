@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -25,8 +26,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
     private boolean enabled = false ;
-
+    private int  loginAttempts = 0  ;
     private int version = 0 ;
+    private boolean locked = false ;
+    private LocalDateTime unlockedAt ;
     @Enumerated(EnumType.STRING)
     private UserRoles role;
 
@@ -60,7 +63,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !locked;
     }
 
     @Override
@@ -71,5 +74,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void incrementLoginAttempts() {
+        this.loginAttempts++ ;
     }
 }
