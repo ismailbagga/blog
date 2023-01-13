@@ -23,21 +23,26 @@ public class TagService {
     @Transactional
     public Tag saveTag(DtoWrapper.BasicTagDto tagDto) {
 
-        var list = tagRepository.findByTitleOrSlug(tagDto.getTitle(), tagDto.getSlug());
-        if (list.size() > 0) {
-            if (list.size() == 2 || ( list.get(0).getTitle().equals(tagDto.getTitle()) &&
-                            list.get(0).getSlug().equals(tagDto.getSlug()))
-            ) {
-                throw new APIException("slug and title is already being used", HttpStatus.CONFLICT);
-            }
-            if (list.get(0).getTitle().equals(tagDto.getTitle()))
-                throw new APIException("title is being used", HttpStatus.CONFLICT);
-            throw new APIException("slug is being used", HttpStatus.CONFLICT);
-        }
-            // in case id was passed
+        validateDuplicateTag(tagDto.getTitle(), tagDto.getSlug());
+        // in case id was passed
         var tag = tagMapper.convertToTagDtoToTag(tagDto) ;
 
         return tagRepository.save(tag);
+    }
+
+    private  void validateDuplicateTag(String dtoTitle ,String dtoSlug) {
+        var list = tagRepository.findByTitleOrSlug(dtoTitle, dtoSlug);
+
+        if (list.size() > 0) {
+            if (list.size() == 2 || ( list.get(0).getTitle().equals(dtoTitle) &&
+                            list.get(0).getSlug().equals(dtoSlug))
+            ) {
+                throw new APIException("slug and title is already being used", HttpStatus.CONFLICT);
+            }
+            if (list.get(0).getTitle().equals(dtoTitle))
+                throw new APIException("title is being used", HttpStatus.CONFLICT);
+            throw new APIException("slug is being used", HttpStatus.CONFLICT);
+        }
     }
 
     @Transactional
@@ -80,6 +85,18 @@ public class TagService {
     public DtoWrapper.BasicTagDto findTagBySlug(String slug) {
         var tag = tagRepository.findBySlug(slug)
                 .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+
         return tagMapper.convertToBasicTag(tag) ;
     }
+    @Transactional
+    public DtoWrapper.BasicTagDto updateTag(long tagId,DtoWrapper.UpdateTagDto dto) {
+        var tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+        validateDuplicateTag(dto.getTitle(),dto.getSlug());
+        tagMapper.updateTag(dto,tag);
+        return tagMapper.convertToBasicTag(tag) ;
+
+    }
+
+
 }
