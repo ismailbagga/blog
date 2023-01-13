@@ -16,6 +16,7 @@ public interface TagMapper {
 
     Tag convertToTagDtoToTag(DtoWrapper.BasicTagDto tagDto);
 
-    List<DtoWrapper.BasicTagDto> convertToBasicTag(List<Tag> tag) ;
-    List<DtoWrapper.BasicTagWithCountOfArticlesDto> convertToBasicTagWithCount(List<TagWithCountProjector> tag) ;
+    DtoWrapper.BasicTagDto convertToBasicTag(Tag tag) ;
+    List<DtoWrapper.BasicTagDto> convertToBasicTags(List<Tag> tag) ;
+    List<DtoWrapper.BasicTagWithCountOfArticlesDto> convertToBasicTagsWithCount(List<TagWithCountProjector> tag) ;
 }

@@ -61,16 +61,25 @@ public class TagService {
         return tagMapper.convertToTagWithArticles(tag);
     }
 
-    public List<DtoWrapper.BasicTagDto> findTagBySlugTerm(String slug) {
-        return tagMapper.convertToBasicTag(tagRepository.findBySlugLikeIgnoreCase(slug)) ;
-    }
-
     public List<DtoWrapper.BasicTagDto> findTagByTitleTerm(String title) {
-        return tagMapper.convertToBasicTag(tagRepository.findByTitleLikeIgnoreCase(title)) ;
+        return tagMapper.convertToBasicTags(tagRepository.findByTitleIsContainingIgnoreCase(title)) ;
 
     }
 
     public List<DtoWrapper.BasicTagWithCountOfArticlesDto>   findAllTags() {
-        return tagMapper.convertToBasicTagWithCount(tagRepository.findAllTagsWithCount()) ;
+        return tagMapper.convertToBasicTagsWithCount(tagRepository.findAllTagsWithCount()) ;
+    }
+
+    public DtoWrapper.BasicTagDto findTagById(Long tagId) {
+        var tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+        return tagMapper.convertToBasicTag(tag) ;
+
+    }
+
+    public DtoWrapper.BasicTagDto findTagBySlug(String slug) {
+        var tag = tagRepository.findBySlug(slug)
+                .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+        return tagMapper.convertToBasicTag(tag) ;
     }
 }

@@ -25,7 +25,6 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     List<Tag> findByTitleOrSlug(String title , String slug) ;
 
 
-    List<Tag> findBySlugLikeIgnoreCase(String slug) ;
-    List<Tag> findByTitleLikeIgnoreCase(String title) ;
+    List<Tag> findByTitleIsContainingIgnoreCase(String title) ;
 
 }

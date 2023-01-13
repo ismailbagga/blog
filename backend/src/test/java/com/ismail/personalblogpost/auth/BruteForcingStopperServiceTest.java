@@ -45,16 +45,18 @@ class BruteForcingStopperServiceTest {
 //    )  ;
     @Test
     void registerMoreThen10Times() {
-
+        assertNull(user.getUnlockedAt());
         loginAttemptNTimes(10);
-        assertTrue(user.isLocked());
+        assertNotNull(user.getUnlockedAt());
         assertEquals(NOW.toLocalDateTime().plusDays(1),user.getUnlockedAt());
 
     }
     @Test
     void registerLessThen10Times() {
+        assertNull(user.getUnlockedAt());
         loginAttemptNTimes(9);
-        assertFalse(user.isLocked());
+        assertNull(user.getUnlockedAt());
+
     }
 
     @Test
@@ -66,14 +68,14 @@ class BruteForcingStopperServiceTest {
         when(clock.getZone()).thenReturn(before_2_days.getZone()) ;
         when(clock.instant()).thenReturn(before_2_days.toInstant()) ;
         loginAttemptNTimes(9);
-        assertFalse(user.isLocked());
+        assertNull(user.getUnlockedAt());
         var after_2_days = ZonedDateTime.of(
                 2023,6,17,12,30,31,0, ZoneId.of("GMT")
         )  ;
         when(clock.getZone()).thenReturn(after_2_days.getZone()) ;
         when(clock.instant()).thenReturn(after_2_days.toInstant()) ;
         loginAttemptNTimes(9);
-        assertFalse(user.isLocked());
+        assertNull(user.getUnlockedAt());
 
 
     }
