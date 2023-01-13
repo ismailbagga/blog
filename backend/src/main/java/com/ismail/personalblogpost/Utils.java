@@ -6,6 +6,12 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+
+
+    public static  String OnEmptySlug(String slug,String title) {
+        if ( slug != null && !slug.strip().equals("")) return slug  ;
+        return Utils.slugify(title) ;
+    }
     public static String slugify(String slug) {
         final Pattern WHITESPACE = Pattern.compile("\\s+") ;
         final Pattern NOT_NORMAL_CHAR = Pattern.compile("[^\\w-]+") ;

@@ -2,6 +2,7 @@ package com.ismail.personalblogpost.Tag;
 
 import com.ismail.personalblogpost.DtoWrapper;
 import com.ismail.personalblogpost.DtoWrapper.TagWithAllRelatedArticles;
+import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import com.ismail.personalblogpost.mapper.TagMapper;
 import org.springframework.http.HttpStatus;
@@ -23,21 +24,26 @@ public class TagService {
     @Transactional
     public Tag saveTag(DtoWrapper.BasicTagDto tagDto) {
 
-        var list = tagRepository.findByTitleOrSlug(tagDto.getTitle(), tagDto.getSlug());
+        tagDto.setSlug(Utils.OnEmptySlug(tagDto.getSlug(),tagDto.getTitle()));
+        validateDuplicateTag(tagDto.getTitle(), tagDto.getSlug());
+        // in case id was passed
+        var tag = tagMapper.convertToTagDtoToTag(tagDto) ;
+        return tagRepository.save(tag);
+    }
+
+    private  void validateDuplicateTag(String dtoTitle ,String dtoSlug) {
+        var list = tagRepository.findByTitleOrSlug(dtoTitle, dtoSlug);
+
         if (list.size() > 0) {
-            if (list.size() == 2 || ( list.get(0).getTitle().equals(tagDto.getTitle()) &&
-                            list.get(0).getSlug().equals(tagDto.getSlug()))
+            if (list.size() == 2 || ( list.get(0).getTitle().equals(dtoTitle) &&
+                            list.get(0).getSlug().equals(dtoSlug))
             ) {
                 throw new APIException("slug and title is already being used", HttpStatus.CONFLICT);
             }
-            if (list.get(0).getTitle().equals(tagDto.getTitle()))
+            if (list.get(0).getTitle().equals(dtoTitle))
                 throw new APIException("title is being used", HttpStatus.CONFLICT);
             throw new APIException("slug is being used", HttpStatus.CONFLICT);
         }
-            // in case id was passed
-        var tag = tagMapper.convertToTagDtoToTag(tagDto) ;
-
-        return tagRepository.save(tag);
     }
 
     @Transactional
@@ -80,6 +86,20 @@ public class TagService {
     public DtoWrapper.BasicTagDto findTagBySlug(String slug) {
         var tag = tagRepository.findBySlug(slug)
                 .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+
         return tagMapper.convertToBasicTag(tag) ;
     }
+    @Transactional
+    public DtoWrapper.UpdateTagDto updateTag(DtoWrapper.UpdateTagDto dto) {
+        var tag = tagRepository.findById(dto.getId())
+                .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+        dto.setSlug(Utils.OnEmptySlug(dto.getSlug(),dto.getTitle()));
+        validateDuplicateTag(dto.getTitle(),dto.getSlug());
+        tagMapper.updateTag(dto,tag);
+        var savedTag = tagRepository.save(tag) ;
+        return dto ;
+
+    }
+
+
 }

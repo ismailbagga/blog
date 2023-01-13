@@ -73,6 +73,17 @@ public class DtoWrapper {
     }
     @Data
     @NoArgsConstructor
+    public static class UpdateTagDto {
+        @NotNull
+        Long id ;
+        @NotBlank
+        String title;
+        @Pattern(regexp = "(^[\\w-]+$)|(^.{0}$)")
+        @NotNull
+        String slug;
+    }
+    @Data
+    @NoArgsConstructor
     public static class BasicTagWithCountOfArticlesDto {
         Long id ;
         @NotBlank

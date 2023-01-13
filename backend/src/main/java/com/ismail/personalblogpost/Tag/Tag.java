@@ -32,11 +32,14 @@ public class Tag {
     @ManyToMany(mappedBy = "relatedTags")
     private Set<Article> relatedArticles ;
 
-    @PrePersist()
-    public void prePersist() {
-        if ( slug != null && !slug.strip().equals("")) return ;
-        slug = Utils.slugify(title) ;
-
-    }
+//    @PrePersist()
+//    @PreUpdate()
+//    public void prePersist() {
+//        System.out.println("Pre Persisting Tag");
+//        System.out.println("slug is --> "+slug);
+//        if ( slug != null && !slug.strip().equals("")) return ;
+//        slug = Utils.slugify(title) ;
+//
+//    }
 
 }

@@ -61,8 +61,18 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(tagService.saveTag(tag)) ;
     }
 
+    @PutMapping()
+    public ResponseEntity<DtoWrapper.UpdateTagDto> updateTag(@Valid @RequestBody DtoWrapper.UpdateTagDto dto ,
+                                                            BindingResult bindingResult ) {
+        if ( bindingResult.hasErrors()) {
+            throw new APIException("invalid request body",HttpStatus.BAD_REQUEST) ;
+        }
+
+        return  ResponseEntity.ok(tagService.updateTag(dto)) ;
+
+    }
     @DeleteMapping("/id/{tagId}")
-    public ResponseEntity<Void> deleteById(@PathVariable("tagId") Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable("tagId") Long id ) {
         tagService.deleteTag(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build() ;
     }
