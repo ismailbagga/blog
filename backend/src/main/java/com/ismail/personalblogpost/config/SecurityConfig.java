@@ -39,7 +39,8 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) ;
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/**").permitAll()
+//                .requestMatchers("/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated() ;
 
         http.addFilter(authFilter) ;

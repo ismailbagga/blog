@@ -1,16 +1,18 @@
 package com.ismail.personalblogpost.Article;
 
+import com.ismail.personalblogpost.Tag.Tag;
 import com.ismail.personalblogpost.Utils;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Entity
@@ -18,6 +20,8 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +29,8 @@ public class Article {
     private String title  ;
     private String slug  ;
     private String description ;
+    @Min(1)
+    private int readingTime ;
     @Column(columnDefinition = "TEXT")
     private String content ;
     @Column(length = 500)
@@ -38,6 +44,9 @@ public class Article {
     private Article nextArticle  ;
     @ManyToOne(fetch = FetchType.LAZY)
     private Article prevArticle  ;
+
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    private Set<Tag> relatedTags ;
 
     @PrePersist()
     public void prePersist() {
