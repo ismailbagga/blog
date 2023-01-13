@@ -1,5 +1,6 @@
 package com.ismail.personalblogpost.Article;
 
+import com.ismail.personalblogpost.Utils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 @Builder
 public class Article {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private String title  ;
     private String slug  ;
@@ -40,10 +42,7 @@ public class Article {
     @PrePersist()
     public void prePersist() {
         if ( slug != null && !slug.strip().equals("")) return ;
-        final Pattern WHITESPACE = Pattern.compile("\\s+") ;
-        final Pattern NOT_NORMAL_CHAR = Pattern.compile("[^\\w-]+") ;
-        var noWhiteSpace = WHITESPACE.matcher(title.toLowerCase().strip()).replaceAll("-");
-        slug = NOT_NORMAL_CHAR.matcher(noWhiteSpace).replaceAll("") ;
+        slug = Utils.slugify(title) ;
 
     }
 
