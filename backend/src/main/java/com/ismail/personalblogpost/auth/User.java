@@ -27,6 +27,8 @@ public class User implements UserDetails {
     private String password;
     private boolean enabled = false ;
     private int version = 0 ;
+
+
     private LocalDateTime unlockedAt ;
     @Enumerated(EnumType.STRING)
     private UserRoles role;
