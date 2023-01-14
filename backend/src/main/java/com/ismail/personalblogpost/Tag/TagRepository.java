@@ -1,8 +1,6 @@
 package com.ismail.personalblogpost.Tag;
 
 import com.ismail.personalblogpost.projectors.TagWithCountProjector;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag,Long> {
@@ -24,6 +23,8 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     List<TagWithCountProjector> findAllTagsWithCount() ;
     List<Tag> findByTitleOrSlug(String title , String slug) ;
 
+
+    Set<Tag> findTagByIdIn(Set<Long> tagsIds) ;
 
     List<Tag> findByTitleIsContainingIgnoreCase(String title) ;
 

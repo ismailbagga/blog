@@ -2,7 +2,10 @@ package com.ismail.personalblogpost.mapper;
 
 import com.ismail.personalblogpost.Article.Article;
 import com.ismail.personalblogpost.DtoWrapper;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface ArticleMapper {
@@ -11,5 +14,6 @@ public interface ArticleMapper {
 
      Article convertUploadDtoToArticle(DtoWrapper.ArticleUploadDto articleUploadDto) ;
 
-//     void updateArticle(DtoWrapper)
+     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+     void updateArticle(DtoWrapper.ArticleContent articleContent , @MappingTarget Article article) ;
 }
