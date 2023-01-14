@@ -48,11 +48,6 @@ public class Article {
     @ManyToMany(cascade = {CascadeType.MERGE})
     private Set<Tag> relatedTags ;
 
-    @PrePersist()
-    public void prePersist() {
-        if ( slug != null && !slug.strip().equals("")) return ;
-        slug = Utils.slugify(title) ;
 
-    }
 
 }

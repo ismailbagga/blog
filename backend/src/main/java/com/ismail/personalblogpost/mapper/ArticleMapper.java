@@ -8,4 +8,8 @@ import org.mapstruct.Mapper;
 public interface ArticleMapper {
 
      DtoWrapper.ArticlePreview convertToArticlePreview(Article article) ;
+
+     Article convertUploadDtoToArticle(DtoWrapper.ArticleUploadDto articleUploadDto) ;
+
+//     void updateArticle(DtoWrapper)
 }

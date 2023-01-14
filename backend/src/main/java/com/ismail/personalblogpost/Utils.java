@@ -12,7 +12,7 @@ public class Utils {
         if ( slug != null && !slug.strip().equals("")) return slug  ;
         return Utils.slugify(title) ;
     }
-    public static String slugify(String slug) {
+    private static String slugify(String slug) {
         final Pattern WHITESPACE = Pattern.compile("\\s+") ;
         final Pattern NOT_NORMAL_CHAR = Pattern.compile("[^\\w-]+") ;
         var noWhiteSpace = WHITESPACE.matcher(slug.toLowerCase().strip()).replaceAll("-");
