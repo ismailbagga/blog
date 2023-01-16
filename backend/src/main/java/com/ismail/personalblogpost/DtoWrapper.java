@@ -44,6 +44,7 @@ public abstract class DtoWrapper {
         private String title;
         private String slug;
         private String description;
+        private String content;
         private String url;
         private LocalDate createdAt;
         private LocalDate updatedAt;
@@ -65,8 +66,9 @@ public abstract class DtoWrapper {
         @NotBlank
         private String content;
 
-
+        @NotNull
         Set<Long> tagsToRemove;
+        @NotNull
         Set<Long> tagsToAdd;
 
 
@@ -83,10 +85,12 @@ public abstract class DtoWrapper {
         short readingTime;
         @NotBlank
         private String description;
+        @NotBlank
+        private String content;
         @NotNull
         private Set<Long> tagIds;
-//        @NotBlank
-//        private String url;
+        @NotBlank
+        private String url;
 //        @NotBlank
 //        String version;
 //        @NotBlank

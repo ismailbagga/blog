@@ -7,6 +7,8 @@ import com.ismail.personalblogpost.Tag.TagRepository;
 import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import com.ismail.personalblogpost.mapper.ArticleMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,13 @@ public class ArticleService {
         return cloudinaryImageService.produceSignature();
     }
 
+
+    public List<DtoWrapper.ArticlePreview> fetchAllArticle() {
+
+        var sort =  Sort.by(Sort.Direction.DESC,"updatedAt") ;
+        return articleMapper.convertToArticlePreviewList(articleRepository.findAll(sort));
+    }
+
     @Transactional
     public String saveArticle(DtoWrapper.ArticleUploadDto articleUploadDto) {
         articleUploadDto.setSlug(Utils.OnEmptySlug(articleUploadDto.getSlug(), articleUploadDto.getTitle()));
@@ -52,11 +61,12 @@ public class ArticleService {
     }
 
     @Transactional
-    public DtoWrapper.ArticlePreview updateArticleContent(Long articleId , DtoWrapper.ArticleContent articleContent) {
+    public DtoWrapper.ArticlePreview updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
         var article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
+        articleContent.setSlug(Utils.OnEmptySlug(articleContent.getSlug(), articleContent.getTitle()));
 //     -----------------   Insuring the title and slug are unique -------------------------------------
-        if (!article.getSlug().equals(articleContent.getSlug()) && article.getTitle().equals(articleContent.getTitle())) {
+        if (!article.getSlug().equals(articleContent.getSlug()) && !article.getTitle().equals(articleContent.getTitle())) {
             duplicateArticleHandler(articleContent.getTitle(), article.getSlug());
         } else if (!article.getSlug().equals(articleContent.getSlug())) {
             articleRepository.findBySlug(articleContent.getSlug())
@@ -70,13 +80,20 @@ public class ArticleService {
                     }));
         }
 //        -------------------- Update Tags ------------------------------
-        article.getRelatedTags().removeIf((art) ->  articleContent.getTagsToRemove().contains(art.getId()) ) ;
-        if (articleContent.getTagsToAdd().size() >  0) {
+        article.getRelatedTags().removeIf((art) -> articleContent.getTagsToRemove().contains(art.getId()));
+        if (articleContent.getTagsToAdd().size() > 0) {
             Set<Tag> tagsToAdd = tagRepository.findTagByIdIn(articleContent.getTagsToAdd());
             article.getRelatedTags().addAll(tagsToAdd);
         }
         articleMapper.updateArticle(articleContent, article);
         return articleMapper.convertToArticlePreview(articleRepository.save(article));
+    }
+    @Transactional
+    public void deleteArticle(Long articleId) {
+        var article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND)) ;
+        articleRepository.delete(article);
+
     }
 
     private void duplicateArticleHandler(String title, String slug) {

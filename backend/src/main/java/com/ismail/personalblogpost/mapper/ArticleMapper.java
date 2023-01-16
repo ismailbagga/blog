@@ -7,10 +7,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ArticleMapper {
 
      DtoWrapper.ArticlePreview convertToArticlePreview(Article article) ;
+     List<DtoWrapper.ArticlePreview> convertToArticlePreviewList(List<Article> article) ;
 
      Article convertUploadDtoToArticle(DtoWrapper.ArticleUploadDto articleUploadDto) ;
 
