@@ -42,7 +42,7 @@ public class CloudinaryImageService {
         params.put("upload_preset",uploadPreset) ;
         final String signature = Util.produceSignature(params, apiSecret);
 //        return Map.of("signature", signature, "timestamp", timestamp);
-        return new CloudinarySignature(signature,timestamp+60*60-timeToDecreaseStampInSeconds) ;
+        return new CloudinarySignature(signature,timestamp) ;
     }
     public void validate(String version, String public_id, String actualSignature) {
 
