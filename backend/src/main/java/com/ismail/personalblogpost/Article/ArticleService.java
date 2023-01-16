@@ -41,7 +41,7 @@ public class ArticleService {
     public List<DtoWrapper.ArticlePreview> fetchAllArticle() {
 
         var sort =  Sort.by(Sort.Direction.DESC,"updatedAt") ;
-        return articleMapper.convertToArticlePreviewList(articleRepository.findAll(sort));
+        return articleMapper.convertToArticlePreviewList(articleRepository.findAllWithEagerFetch(sort));
     }
 
     @Transactional

@@ -10,15 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ArticleRepository  extends JpaRepository<Article,Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 
+    @Query("SELECT article FROM Article  article " +
+            "LEFT JOIN FETCH article.nextArticle " +
+            "LEFT JOIN FETCH article.prevArticle")
+    List<Article> findAllWithEagerFetch(Sort sort);
 
-    @Query(value = "SELECT article , prev_article , next_article , FROM ",nativeQuery = true )
-    Optional<Article> fetchArticleDetails(String slug) ;
+    Optional<Article> findByTitle(String title);
 
-    Optional<Article> findByTitle(String title) ;
+    Optional<Article> findBySlug(String slug);
 
-    Optional<Article> findBySlug(String slug) ;
-    List<Article> findByTitleOrSlug(String title , String slug) ;
+    List<Article> findByTitleOrSlug(String title, String slug);
 }
