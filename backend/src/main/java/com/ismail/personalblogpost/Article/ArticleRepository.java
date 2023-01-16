@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findBySlug(String slug);
 
     List<Article> findByTitleOrSlug(String title, String slug);
+    @Query("SELECT article FROM Article article " +
+            "LEFT JOIN FETCH article.nextArticle " +
+            "LEFT JOIN FETCH article.prevArticle " +
+            "where article.slug = :slug")
+    Optional<Article> fetchArticleBySlugEagerly(@Param("slug") String slug);
 }

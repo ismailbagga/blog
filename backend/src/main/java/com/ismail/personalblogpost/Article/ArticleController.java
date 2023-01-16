@@ -27,6 +27,10 @@ public class ArticleController {
     public ResponseEntity<List<DtoWrapper.ArticlePreview>> fetchAll() {
         return ResponseEntity.ok(articleService.fetchAllArticle());
     }
+    @GetMapping("/{slug}")
+    public ResponseEntity<DtoWrapper.ArticleDetails> findDetailsOfArticleBySlug(@PathVariable("slug") String slug) {
+        return ResponseEntity.ok(articleService.fetchDetailOfArticle(slug));
+    }
 
     @PostMapping("/signature")
     public ResponseEntity<DtoWrapper.CloudinarySignature> generateSignature() {

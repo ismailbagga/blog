@@ -107,4 +107,10 @@ public class ArticleService {
             throw new APIException("slug is being used", HttpStatus.CONFLICT);
         }
     }
+
+    public DtoWrapper.ArticleDetails fetchDetailOfArticle(String slug) {
+        var article = articleRepository.fetchArticleBySlugEagerly(slug)
+                .orElseThrow(()-> new APIException("there no article with this slug",HttpStatus.NOT_FOUND));
+        return articleMapper.convertToArticleDetails(article) ;
+    }
 }

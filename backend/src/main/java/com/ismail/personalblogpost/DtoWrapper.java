@@ -39,12 +39,36 @@ public abstract class DtoWrapper {
 
     @Data
     @NoArgsConstructor
+    public static class BasicArticle {
+        private Long id;
+        private String title;
+        private String slug;
+        private String description;
+        private String url;
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class ArticleDetails {
+        private Long id;
+        private String title;
+        private String slug;
+        private String description;
+        private String url;
+        private LocalDate createdAt;
+        private LocalDate updatedAt;
+        private Set<BasicTagDto> relatedTags;
+        private BasicArticle nextArticle;
+        private BasicArticle prevArticle;
+    }
+
+    @Data
+    @NoArgsConstructor
     public static class ArticlePreview {
         private Long id;
         private String title;
         private String slug;
         private String description;
-        private String content;
         private String url;
         private LocalDate createdAt;
         private LocalDate updatedAt;

@@ -13,6 +13,8 @@ import java.util.List;
 public interface ArticleMapper {
 
      DtoWrapper.ArticlePreview convertToArticlePreview(Article article) ;
+     DtoWrapper.ArticleDetails convertToArticleDetails(Article article) ;
+     DtoWrapper.BasicArticle convertToBasicArticle(Article article) ;
      List<DtoWrapper.ArticlePreview> convertToArticlePreviewList(List<Article> article) ;
 
      Article convertUploadDtoToArticle(DtoWrapper.ArticleUploadDto articleUploadDto) ;
