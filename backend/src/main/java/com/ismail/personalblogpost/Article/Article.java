@@ -12,11 +12,12 @@ import org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxy
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 @Entity
-@Table(indexes = {@Index(name ="article_slug_index" ,columnList = "slug",unique = true)})
+@Table(indexes = {@Index(name = "article_slug_index", columnList = "slug", unique = true)})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,30 +25,38 @@ import java.util.regex.Pattern;
 @Setter
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
-    private String title  ;
-    private String slug  ;
-    private String description ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "article_id_sequence")
+    @SequenceGenerator(name = "article_id_sequence", sequenceName = "article_id_seq", allocationSize = 1)
+    private Long id;
+    @Column(unique = true)
+    private String title;
+    @Column(unique = true)
+    private String slug;
+    private String description;
     @Min(1)
-    private int readingTime ;
-    @Column(columnDefinition = "TEXT")
-    private String content ;
+    private int readingTime;
+    @Column(columnDefinition = "TEXT",name = "article_content")
+    private String content;
     @Column(length = 500)
-    private String url ;
+    private String url;
 
     @CreationTimestamp
-    private LocalDate createdAt  ;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDate updatedAt  ;
+    private LocalDate updatedAt;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Article nextArticle  ;
+    @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "next_article_id"))
+    private Article nextArticle;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Article prevArticle  ;
+    @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "prev_article_id"))
+    private Article prevArticle;
 
     @ManyToMany(cascade = {CascadeType.MERGE})
-    private Set<Tag> relatedTags ;
-
+    @JoinTable(name = "tag_of_article",
+            joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", nullable = false)
+    )
+    private Set<Tag> relatedTags;
 
 
 }

@@ -19,7 +19,8 @@ import java.util.Set;
 @Setter
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY , generator = "tag_id_sequence")
+    @SequenceGenerator(name = "tag_id_sequence",sequenceName = "tag_id_seq",allocationSize = 1)
     private Long id ;
     @NotNull
     @NotBlank
@@ -32,14 +33,6 @@ public class Tag {
     @ManyToMany(mappedBy = "relatedTags")
     private Set<Article> relatedArticles ;
 
-//    @PrePersist()
-//    @PreUpdate()
-//    public void prePersist() {
-//        System.out.println("Pre Persisting Tag");
-//        System.out.println("slug is --> "+slug);
-//        if ( slug != null && !slug.strip().equals("")) return ;
-//        slug = Utils.slugify(title) ;
-//
-//    }
+
 
 }

@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @Entity
 @Table(
-        name = "base_app_user",
+        name = "basic_app_user",
         indexes = {@Index(name = "username_idx",columnList = "username",unique = true)})
 @Getter
 @Setter
@@ -19,7 +19,8 @@ import java.util.Collection;
 @Builder()
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "basic_app_user_id_sequence")
+    @SequenceGenerator(name = "basic_app_user_id_sequence" ,sequenceName = "basic_app_user_id_seq",allocationSize = 1)
     private Long id;
     @Column(unique = true,nullable = false)
     private String username;
