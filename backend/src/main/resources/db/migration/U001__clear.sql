@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS  basic_app_user ,tags_of_article , article , tag;
