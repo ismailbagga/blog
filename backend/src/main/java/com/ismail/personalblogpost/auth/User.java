@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
-@Table(
-        name = "basic_app_user",
-        indexes = {@Index(name = "username_idx",columnList = "username",unique = true)})
+@Table(name = "basic_app_user",indexes = {@Index(name = "basic_user_username_idx",columnList = "username")})
 @Getter
 @Setter
 @AllArgsConstructor

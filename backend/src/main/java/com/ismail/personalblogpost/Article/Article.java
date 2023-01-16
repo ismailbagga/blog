@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 @Entity
-@Table(indexes = {@Index(name = "article_slug_index", columnList = "slug", unique = true)})
+@Table(indexes = {@Index(name = "article_slug_index", columnList = "slug")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

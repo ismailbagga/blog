@@ -11,7 +11,7 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(indexes = @Index(name = "tag_slug_index",columnList = "slug",unique = true))
+@Table(indexes = @Index(name = "tag_slug_index",columnList = "slug"))
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

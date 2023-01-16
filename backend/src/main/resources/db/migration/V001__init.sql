@@ -22,8 +22,8 @@ CREATE TABLE article
     url             varchar(500),
     created_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATE,
-    next_article_id BIGINT REFERENCES article (id) ON DELETE NO ACTION UNIQUE,
-    prev_article_id BIGINT REFERENCES article (id) ON DELETE NO ACTION UNIQUE
+    next_article_id BIGINT REFERENCES article (id) ON DELETE NO ACTION ,
+    prev_article_id BIGINT REFERENCES article (id) ON DELETE NO ACTION
 
 );
 CREATE TABLE tag
@@ -37,4 +37,12 @@ create table tag_of_article
     article_id bigint not null,
     tag_id     bigint not null,
     primary key (article_id, tag_id)
-)
+) ;
+
+
+
+-- Indexes
+
+CREATE INDEX basic_user_username_idx ON basic_app_user(username) ;
+CREATE INDEX article_slug_idx ON article(slug) ;
+CREATE INDEX tag_slug_idx ON tag(slug) ;
