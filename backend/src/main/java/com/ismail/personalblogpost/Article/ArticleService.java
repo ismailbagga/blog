@@ -7,7 +7,6 @@ import com.ismail.personalblogpost.Tag.TagRepository;
 import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import com.ismail.personalblogpost.mapper.ArticleMapper;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,14 +22,16 @@ public class ArticleService {
     private final TagRepository tagRepository;
     private final CloudinaryImageService cloudinaryImageService;
     private final ArticleMapper articleMapper;
+    private final MarkdownRepository markdownRepository ;
 
     public ArticleService(ArticleRepository articleRepository,
                           TagRepository tagRepository, CloudinaryImageService cloudinaryImageService,
-                          ArticleMapper articleMapper) {
+                          ArticleMapper articleMapper, MarkdownRepository markdownRepository) {
         this.articleRepository = articleRepository;
         this.tagRepository = tagRepository;
         this.cloudinaryImageService = cloudinaryImageService;
         this.articleMapper = articleMapper;
+        this.markdownRepository = markdownRepository;
     }
 
     public CloudinarySignature produceSignature() {
@@ -40,7 +41,7 @@ public class ArticleService {
 
     public List<DtoWrapper.ArticlePreview> fetchAllArticle() {
 
-        var sort =  Sort.by(Sort.Direction.DESC,"updatedAt") ;
+        var sort = Sort.by(Sort.Direction.DESC, "updatedAt");
         return articleMapper.convertToArticlePreviewList(articleRepository.findAllWithEagerFetch(sort));
     }
 
@@ -61,37 +62,39 @@ public class ArticleService {
     }
 
     @Transactional
-    public DtoWrapper.ArticlePreview updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
+    public DtoWrapper.ArticlePreview updateArticleMetaData(Long articleId, DtoWrapper.ArticleMetaData articleMetaData) {
         var article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
-        articleContent.setSlug(Utils.OnEmptySlug(articleContent.getSlug(), articleContent.getTitle()));
+        articleMetaData.setSlug(Utils.OnEmptySlug(articleMetaData.getSlug(), articleMetaData.getTitle()));
 //     -----------------   Insuring the title and slug are unique -------------------------------------
-        if (!article.getSlug().equals(articleContent.getSlug()) && !article.getTitle().equals(articleContent.getTitle())) {
-            duplicateArticleHandler(articleContent.getTitle(), article.getSlug());
-        } else if (!article.getSlug().equals(articleContent.getSlug())) {
-            articleRepository.findBySlug(articleContent.getSlug())
+        if (!article.getSlug().equals(articleMetaData.getSlug()) && !article.getTitle().equals(articleMetaData.getTitle())) {
+            duplicateArticleHandler(articleMetaData.getTitle(), article.getSlug());
+        } else if (!article.getSlug().equals(articleMetaData.getSlug())) {
+            articleRepository.findBySlug(articleMetaData.getSlug())
                     .ifPresent((ignore -> {
                         throw new APIException("this slug already exists", HttpStatus.CONFLICT);
                     }));
-        } else if (!article.getTitle().equals(articleContent.getTitle())) {
-            articleRepository.findByTitle(articleContent.getTitle())
+        } else if (!article.getTitle().equals(articleMetaData.getTitle())) {
+            articleRepository.findByTitle(articleMetaData.getTitle())
                     .ifPresent((ignore -> {
                         throw new APIException("this title already exists", HttpStatus.CONFLICT);
                     }));
         }
 //        -------------------- Update Tags ------------------------------
-        article.getRelatedTags().removeIf((art) -> articleContent.getTagsToRemove().contains(art.getId()));
-        if (articleContent.getTagsToAdd().size() > 0) {
-            Set<Tag> tagsToAdd = tagRepository.findTagByIdIn(articleContent.getTagsToAdd());
+        article.getRelatedTags().removeIf((art) -> articleMetaData.getTagsToRemove().contains(art.getId()));
+        if (articleMetaData.getTagsToAdd().size() > 0) {
+            Set<Tag> tagsToAdd = tagRepository.findTagByIdIn(articleMetaData.getTagsToAdd());
             article.getRelatedTags().addAll(tagsToAdd);
         }
-        articleMapper.updateArticle(articleContent, article);
+        articleMapper.updateArticle(articleMetaData, article);
         return articleMapper.convertToArticlePreview(articleRepository.save(article));
     }
+
+
     @Transactional
     public void deleteArticle(Long articleId) {
         var article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND)) ;
+                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
         articleRepository.delete(article);
 
     }
@@ -110,7 +113,20 @@ public class ArticleService {
 
     public DtoWrapper.ArticleDetails fetchDetailOfArticle(String slug) {
         var article = articleRepository.fetchArticleBySlugEagerly(slug)
-                .orElseThrow(()-> new APIException("there no article with this slug",HttpStatus.NOT_FOUND));
-        return articleMapper.convertToArticleDetails(article) ;
+                .orElseThrow(() -> new APIException("there no article with this slug", HttpStatus.NOT_FOUND));
+        return articleMapper.convertToArticleDetails(article);
+    }
+
+    public List<DtoWrapper.ArticlePreview> findArticleByRelatedTags(Long[] tags) {
+        var resultSet = articleRepository.findArticleByRelatedTagsIn(tags) ;
+        return  articleMapper.convertToArticlePreviewList(resultSet) ;
+    }
+    @Transactional
+    public void updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
+        var content = markdownRepository.findById(articleId)
+                .orElseThrow(()-> new APIException("there is no article with this id",HttpStatus.NOT_FOUND))  ;
+        content.setContent(articleContent.getContent()) ;
+        markdownRepository.save(content) ;
+
     }
 }

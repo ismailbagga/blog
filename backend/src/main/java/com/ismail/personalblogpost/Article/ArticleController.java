@@ -5,16 +5,19 @@ import com.ismail.personalblogpost.DtoWrapper.ArticleUploadDto;
 import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/article")
+@RequestMapping("/api/v1/articles")
+@Slf4j
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -27,9 +30,14 @@ public class ArticleController {
     public ResponseEntity<List<DtoWrapper.ArticlePreview>> fetchAll() {
         return ResponseEntity.ok(articleService.fetchAllArticle());
     }
-    @GetMapping("/{slug}")
+    @GetMapping("/details/{slug}")
     public ResponseEntity<DtoWrapper.ArticleDetails> findDetailsOfArticleBySlug(@PathVariable("slug") String slug) {
         return ResponseEntity.ok(articleService.fetchDetailOfArticle(slug));
+    }
+    @GetMapping("/search/tags/")
+    public ResponseEntity<List<DtoWrapper.ArticlePreview>> findArticleRelatedToTags(@RequestParam("tags") Long[] tags) {
+        log.debug("tags passed are -> {}", Arrays.toString(tags));
+        return ResponseEntity.ok(articleService.findArticleByRelatedTags(tags)) ;
     }
 
     @PostMapping("/signature")
@@ -37,7 +45,7 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.produceSignature());
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Map> uploadArticle(@Valid @RequestBody ArticleUploadDto articleUploadDto,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -47,16 +55,37 @@ public class ArticleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("articleSlug", articleSlug));
     }
 
-    @PutMapping("/{articleId}")
-    public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleContent(@PathVariable Long articleId,
-                                                                          @Valid @RequestBody DtoWrapper.ArticleContent articleContent,
+    @PutMapping("/meta-data/{articleId}")
+    public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleMetaData(@PathVariable Long articleId,
+                                                                          @Valid @RequestBody DtoWrapper.ArticleMetaData articleMetaData,
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
             throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
         }
-        var article = articleService.updateArticleContent(articleId, articleContent);
+        var article = articleService.updateArticleMetaData(articleId, articleMetaData);
         return ResponseEntity.ok(article);
+    }
+    @PutMapping("/image/{articleId}")
+    public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleImage(@PathVariable Long articleId,
+                                                                          @Valid @RequestBody DtoWrapper.ArticleMetaData articleMetaData,
+                                                                          BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+            throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
+        }
+        var article = articleService.updateArticleMetaData(articleId, articleMetaData);
+        return ResponseEntity.ok(article);
+    }
+    @PutMapping("/content/{articleId}")
+    public ResponseEntity<Void> updateArticleContent(@PathVariable Long articleId,
+                                                                          @Valid @RequestBody DtoWrapper.ArticleContent articleContent,
+                                                                          BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
+        }
+        articleService.updateArticleContent(articleId, articleContent);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{articleId}")

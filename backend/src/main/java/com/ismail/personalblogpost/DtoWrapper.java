@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -55,6 +54,7 @@ public abstract class DtoWrapper {
         private String slug;
         private String description;
         private String url;
+        private String content ;
         private LocalDate createdAt;
         private LocalDate updatedAt;
         private Set<BasicTagDto> relatedTags;
@@ -64,6 +64,7 @@ public abstract class DtoWrapper {
 
     @Data
     @NoArgsConstructor
+    @ToString
     public static class ArticlePreview {
         private Long id;
         private String title;
@@ -79,7 +80,7 @@ public abstract class DtoWrapper {
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class ArticleContent extends SlugDto {
+    public static class ArticleMetaData extends SlugDto {
         @NotBlank
         String title;
         @NotNull
@@ -87,15 +88,18 @@ public abstract class DtoWrapper {
         short readingTime;
         @NotBlank
         private String description;
-        @NotBlank
-        private String content;
-
         @NotNull
         Set<Long> tagsToRemove;
         @NotNull
         Set<Long> tagsToAdd;
 
 
+    }
+
+    @Getter
+    @Setter
+    public static class  ArticleContent {
+        String content ;
     }
 
     @Getter

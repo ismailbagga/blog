@@ -2,10 +2,8 @@ package com.ismail.personalblogpost.mapper;
 
 import com.ismail.personalblogpost.Article.Article;
 import com.ismail.personalblogpost.DtoWrapper;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import com.ismail.personalblogpost.projectors.ArticleProjector;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -13,6 +11,8 @@ import java.util.List;
 public interface ArticleMapper {
 
      DtoWrapper.ArticlePreview convertToArticlePreview(Article article) ;
+     DtoWrapper.ArticlePreview convertProjectorToArticlePreview(ArticleProjector article) ;
+     List<DtoWrapper.ArticlePreview> convertProjectorsToArticlePreviews(List<ArticleProjector> article) ;
      DtoWrapper.ArticleDetails convertToArticleDetails(Article article) ;
      DtoWrapper.BasicArticle convertToBasicArticle(Article article) ;
      List<DtoWrapper.ArticlePreview> convertToArticlePreviewList(List<Article> article) ;
@@ -20,5 +20,5 @@ public interface ArticleMapper {
      Article convertUploadDtoToArticle(DtoWrapper.ArticleUploadDto articleUploadDto) ;
 
      @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-     void updateArticle(DtoWrapper.ArticleContent articleContent , @MappingTarget Article article) ;
+     void updateArticle(DtoWrapper.ArticleMetaData articleMetaData, @MappingTarget Article article) ;
 }

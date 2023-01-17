@@ -1,26 +1,21 @@
 package com.ismail.personalblogpost.Article;
 
 import com.ismail.personalblogpost.Tag.Tag;
-import com.ismail.personalblogpost.Utils;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 @Entity
 @Table(indexes = {@Index(name = "article_slug_index", columnList = "slug")})
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+
 @Getter
 @Setter
 public class Article {
@@ -35,8 +30,7 @@ public class Article {
     private String description;
     @Min(1)
     private int readingTime;
-    @Column(columnDefinition = "TEXT",name = "article_content")
-    private String content;
+
     @Column(length = 500)
     private String url;
 
@@ -44,6 +38,9 @@ public class Article {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDate updatedAt;
+    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    MarkdownContent markdownContent ;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "next_article_id"))
     private Article nextArticle;
@@ -57,6 +54,11 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", nullable = false)
     )
     private Set<Tag> relatedTags;
-
-
+    public String getContent() {
+        return  markdownContent.getContent() ;
+    }
+    public void setContent(String markdownContent) {
+        this.markdownContent = MarkdownContent.builder().content(markdownContent)
+                .build();
+    }
 }

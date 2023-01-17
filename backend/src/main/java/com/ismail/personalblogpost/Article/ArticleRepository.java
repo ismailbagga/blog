@@ -1,6 +1,5 @@
 package com.ismail.personalblogpost.Article;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,20 +12,31 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+    Optional<Article> findByTitle(String title);
+
+    Optional<Article> findBySlug(String slug);
+
+    List<Article> findByTitleOrSlug(String title, String slug);
+
+    @Query("SELECT article FROM Article article " +
+            "INNER JOIN article.markdownContent mkd "+
+            "LEFT JOIN FETCH article.nextArticle " +
+            "LEFT JOIN FETCH article.prevArticle " +
+            "where article.slug = :slug")
+    Optional<Article> fetchArticleBySlugEagerly(@Param("slug") String slug);
 
     @Query("SELECT article FROM Article  article " +
             "LEFT JOIN FETCH article.nextArticle " +
             "LEFT JOIN FETCH article.prevArticle")
     List<Article> findAllWithEagerFetch(Sort sort);
 
-    Optional<Article> findByTitle(String title);
 
-    Optional<Article> findBySlug(String slug);
+    @Query(value = "SELECT article  FROM  Article article "+
+            "  JOIN  FETCH  article.relatedTags rlt " +
+            "WHERE rlt.id IN (:tagsId)"
+            )
+    List<Article> findArticleByRelatedTagsIn(@Param("tagsId") Long[] tagsId);
 
-    List<Article> findByTitleOrSlug(String title, String slug);
-    @Query("SELECT article FROM Article article " +
-            "LEFT JOIN FETCH article.nextArticle " +
-            "LEFT JOIN FETCH article.prevArticle " +
-            "where article.slug = :slug")
-    Optional<Article> fetchArticleBySlugEagerly(@Param("slug") String slug);
+
+
 }
