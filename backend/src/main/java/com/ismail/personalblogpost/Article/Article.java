@@ -38,7 +38,8 @@ public class Article {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDate updatedAt;
-    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToOne(orphanRemoval = true
+            ,mappedBy = "article",fetch = FetchType.LAZY)
     MarkdownContent markdownContent ;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,7 +59,6 @@ public class Article {
         return  markdownContent.getContent() ;
     }
     public void setContent(String markdownContent) {
-        this.markdownContent = MarkdownContent.builder().content(markdownContent)
-                .build();
+        this.markdownContent = new MarkdownContent(this,markdownContent) ;
     }
 }

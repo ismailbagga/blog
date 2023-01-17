@@ -19,13 +19,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByTitleOrSlug(String title, String slug);
 
     @Query("SELECT article FROM Article article " +
-            "INNER JOIN article.markdownContent mkd "+
+            "INNER JOIN article.markdownContent  "+
+            "LEFT JOIN FETCH article.relatedTags "+
             "LEFT JOIN FETCH article.nextArticle " +
             "LEFT JOIN FETCH article.prevArticle " +
             "where article.slug = :slug")
     Optional<Article> fetchArticleBySlugEagerly(@Param("slug") String slug);
 
     @Query("SELECT article FROM Article  article " +
+            "LEFT JOIN FETCH article.relatedTags "+
             "LEFT JOIN FETCH article.nextArticle " +
             "LEFT JOIN FETCH article.prevArticle")
     List<Article> findAllWithEagerFetch(Sort sort);

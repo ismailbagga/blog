@@ -1,10 +1,13 @@
 package com.ismail.personalblogpost;
 
 import jakarta.persistence.PrePersist;
+import org.springframework.context.annotation.Scope;
 import org.springframework.validation.BindingResult;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -22,12 +25,14 @@ public class Utils {
         return NOT_NORMAL_CHAR.matcher(noWhiteSpace).replaceAll("");
 
     }
-
-    public static Map<String, String> mapErrorToMap(BindingResult bindingResult) {
-        var errors = new HashMap<String, String>();
+    public static String  mapErrorToMap(BindingResult bindingResult) {
+        var errors  = new  StringBuilder().append("{");
         bindingResult.getAllErrors().forEach((objectError) -> {
-              errors.put(objectError.getObjectName(),objectError.getDefaultMessage()) ;
+            var fieldName =  Objects.requireNonNull(objectError.getCodes())[0].split("\\.")[2] ;
+            errors.append(" %s : %s , ".formatted(fieldName,objectError.getDefaultMessage())) ;
         });
-        return errors;
+        // To Remove the Last ,
+        var len = errors.length()-1 ;
+        return errors.delete(len-2,len).append("}").toString();
     }
 }

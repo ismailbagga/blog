@@ -10,11 +10,7 @@ CREATE table basic_app_user
 
 );
 
-CREATE TABLE markdown_content
-(
-    id      BIGSERIAL PRIMARY KEY,
-    content TEXT NOT NULL
-);
+
 CREATE TABLE article
 (
     id                  BIGSERIAL PRIMARY KEY,
@@ -22,13 +18,18 @@ CREATE TABLE article
     slug                varchar(255) NOT NULL UNIQUE,
     description         varchar(255),
     reading_time        int          NOT NULL CHECK ( reading_time >= 1 ),
-    markdown_content_id BIGINT REFERENCES markdown_content (id),
     url                 varchar(500),
     created_at          timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at          DATE,
     next_article_id     BIGINT REFERENCES article (id) ON DELETE NO ACTION,
     prev_article_id     BIGINT REFERENCES article (id) ON DELETE NO ACTION
 
+);
+CREATE TABLE markdown_content
+(
+    article_id BIGINT REFERENCES article(id) ON DELETE  CASCADE ,
+    content TEXT NOT NULL ,
+    PRIMARY KEY (article_id)
 );
 CREATE TABLE tag
 (
