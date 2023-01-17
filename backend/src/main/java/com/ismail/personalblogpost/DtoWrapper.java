@@ -14,7 +14,7 @@ public abstract class DtoWrapper {
     @Getter
     @Setter
     private static class SlugDto {
-        @Pattern(regexp = "(^[\\w-]+$)|(^.{0}$)")
+        @Pattern(regexp = "(^a-z1-9-$)|(^.{0}$)")
         private String slug;
     }
 
@@ -54,7 +54,7 @@ public abstract class DtoWrapper {
         private String slug;
         private String description;
         private String url;
-        private String content ;
+        private String content;
         private LocalDate createdAt;
         private LocalDate updatedAt;
         private Set<BasicTagDto> relatedTags;
@@ -80,9 +80,12 @@ public abstract class DtoWrapper {
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class ArticleMetaData extends SlugDto {
+    public static class ArticleMetaData {
         @NotBlank
         String title;
+        @Pattern(regexp = "^[a-z1-9-]+$")
+        @NotBlank
+        String slug;
         @NotNull
         @Min(1)
         short readingTime;
@@ -98,8 +101,8 @@ public abstract class DtoWrapper {
 
     @Getter
     @Setter
-    public static class  ArticleContent {
-        String content ;
+    public static class ArticleContent {
+        String content;
     }
 
     @Getter

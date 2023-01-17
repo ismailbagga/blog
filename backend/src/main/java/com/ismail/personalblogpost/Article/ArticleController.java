@@ -49,7 +49,7 @@ public class ArticleController {
     public ResponseEntity<Map> uploadArticle(@Valid @RequestBody ArticleUploadDto articleUploadDto,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new APIException("Invalid request body ", HttpStatus.BAD_REQUEST);
+            throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
         var articleSlug = articleService.saveArticle(articleUploadDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("articleSlug", articleSlug));
@@ -61,7 +61,7 @@ public class ArticleController {
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
-            throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
+            throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
         var article = articleService.updateArticleMetaData(articleId, articleMetaData);
         return ResponseEntity.ok(article);
@@ -72,7 +72,7 @@ public class ArticleController {
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
-            throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
+            throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
         var article = articleService.updateArticleMetaData(articleId, articleMetaData);
         return ResponseEntity.ok(article);
@@ -82,7 +82,7 @@ public class ArticleController {
                                                                           @Valid @RequestBody DtoWrapper.ArticleContent articleContent,
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new APIException(Utils.mapErrorToMap(bindingResult).toString(), HttpStatus.BAD_REQUEST);
+            throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
         articleService.updateArticleContent(articleId, articleContent);
         return ResponseEntity.ok().build();
