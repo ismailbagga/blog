@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tag")
+@RequestMapping("/api/v1/tags")
 public class TagController {
     private final TagService tagService ;
 
@@ -22,7 +22,7 @@ public class TagController {
     }
 //  ------------------- All Tags With Count -----------------------
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<BasicTagWithCountOfArticlesDto>> findAllTagsWithCount() {
 
         return ResponseEntity.ok(tagService.findAllTags()) ;

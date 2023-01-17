@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
-@Table(
-        name = "base_app_user",
-        indexes = {@Index(name = "username_idx",columnList = "username",unique = true)})
+@Table(name = "basic_app_user",indexes = {@Index(name = "basic_user_username_idx",columnList = "username")})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,7 +17,8 @@ import java.util.Collection;
 @Builder()
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "basic_app_user_id_sequence")
+    @SequenceGenerator(name = "basic_app_user_id_sequence" ,sequenceName = "basic_app_user_id_seq",allocationSize = 1)
     private Long id;
     @Column(unique = true,nullable = false)
     private String username;
