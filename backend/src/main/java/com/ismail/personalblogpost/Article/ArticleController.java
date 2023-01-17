@@ -34,10 +34,14 @@ public class ArticleController {
     public ResponseEntity<DtoWrapper.ArticleDetails> findDetailsOfArticleBySlug(@PathVariable("slug") String slug) {
         return ResponseEntity.ok(articleService.fetchDetailOfArticle(slug));
     }
-    @GetMapping("/search/tags/")
+    @GetMapping("/search/tags")
     public ResponseEntity<List<DtoWrapper.ArticlePreview>> findArticleRelatedToTags(@RequestParam("tags") Long[] tags) {
         log.debug("tags passed are -> {}", Arrays.toString(tags));
         return ResponseEntity.ok(articleService.findArticleByRelatedTags(tags)) ;
+    }
+    @GetMapping("/search/title")
+    public ResponseEntity<List<DtoWrapper.ArticlePreview>> findArticleByTitle(@RequestParam("title") String title) {
+        return ResponseEntity.ok(articleService.findArticleByContainingTerm(title)) ;
     }
 
     @PostMapping("/signature")

@@ -124,6 +124,12 @@ public class ArticleService {
         var resultSet = articleRepository.findArticleByRelatedTagsIn(tags) ;
         return  articleMapper.convertToArticlePreviewList(resultSet) ;
     }
+
+    public List<DtoWrapper.ArticlePreview> findArticleByContainingTerm(String title) {
+        if ( title.strip().equals("")) return  List.of() ;
+        var resultSet = articleRepository.findByTitleIsContainingIgnoreCase(title) ;
+        return articleMapper.convertToArticlePreviewList(resultSet) ;
+    }
     @Transactional
     public void updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
         var content = markdownRepository.findByIdJPQL(articleId)
