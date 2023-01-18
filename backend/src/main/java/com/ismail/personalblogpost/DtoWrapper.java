@@ -1,5 +1,6 @@
 package com.ismail.personalblogpost;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public abstract class DtoWrapper {
 
     @Data
     @NoArgsConstructor
-    public static class ImageUploadDto {
+    public static class ImagePayload {
         String version;
         String signature;
         String url;
@@ -122,10 +123,9 @@ public abstract class DtoWrapper {
         private Set<Long> tagIds;
         @NotBlank
         private String url;
-//        @NotBlank
-//        String version;
-//        @NotBlank
-//        String signature;
+        @Valid
+        private DtoWrapper.ImagePayload imagePayload ;
+
     }
 //    -------------------- Tag DTO
 
