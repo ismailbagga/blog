@@ -29,7 +29,8 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
     public CustomUsernameAndPasswordAuthFilter(AuthenticationManager authenticationManager, JwToken jwToken) {
         super(authenticationManager);
 
-        super.setFilterProcessesUrl("/api/v1/login");
+        super.setFilterProcessesUrl("/api/v1/auth/login");
+        super.setPostOnly(true);
         this.authenticationManager = authenticationManager;
         this.jwToken = jwToken;
     }
