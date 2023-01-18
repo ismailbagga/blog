@@ -5,6 +5,7 @@ import com.ismail.personalblogpost.exception.ApiExceptionControllerAdvice;
 import com.ismail.personalblogpost.exception.ApiExceptionControllerAdvice.ExceptionMessage;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,10 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         var principal = (UserDetails) authResult.getPrincipal();
         var tokens = jwToken.createJwtTokens(principal);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        var cookie = new Cookie(JwToken.REFRESH_TOKEN_COOKIE, tokens.refreshToken());
+        response.setStatus(HttpStatus.OK.value());
+        response.setHeader(JwToken.AUTHORIZATION, tokens.refreshToken());
+        response.addCookie(cookie);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
                     failed.getCause(),
                     HttpStatus.LOCKED,
                     ZonedDateTime.now());
-            new ObjectMapper().writeValue(response.getOutputStream(),message);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
             return;
         }
 
