@@ -72,19 +72,19 @@ public class ArticleController {
     }
     @PutMapping("/image/{articleId}")
     public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleImage(@PathVariable Long articleId,
-                                                                          @Valid @RequestBody DtoWrapper.ArticleMetaData articleMetaData,
+                                                                          @Valid @RequestBody DtoWrapper.ImagePayload articleMetaData,
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
             throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
-        var article = articleService.updateArticleMetaData(articleId, articleMetaData);
+        var article = articleService.updateArticleImage(articleId, articleMetaData);
         return ResponseEntity.ok(article);
     }
     @PutMapping("/content/{articleId}")
     public ResponseEntity<Void> updateArticleContent(@PathVariable Long articleId,
                                                                           @Valid @RequestBody DtoWrapper.ArticleContent articleContent,
-                                                                          BindingResult bindingResult) {
+                                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }

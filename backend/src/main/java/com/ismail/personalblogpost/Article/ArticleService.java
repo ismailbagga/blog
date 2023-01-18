@@ -96,6 +96,8 @@ public class ArticleService {
     public void deleteArticle(Long articleId) {
         var article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
+//        TODO:Remove the old url
+        var oldUrl = article.getUrl() ;
         articleRepository.delete(article);
 
     }
@@ -136,6 +138,21 @@ public class ArticleService {
                 .orElseThrow(()-> new APIException("there is no article with this id",HttpStatus.NOT_FOUND))  ;
         content.setContent(articleContent.getContent()) ;
         markdownRepository.save(content) ;
+
+    }
+    @Transactional
+    public DtoWrapper.ArticlePreview updateArticleImage(Long articleId, DtoWrapper.ImagePayload payload) {
+        cloudinaryImageService.validate(payload.getVersion(),payload.getUrl(),payload.getSignature());
+
+
+        var article = articleRepository.findById(articleId)
+                .orElseThrow(()-> new APIException("there is no article with this id",HttpStatus.NOT_FOUND)) ;
+//        TODO: Remove The Old Urls
+        var oldUrl = article.getUrl();
+        article.setUrl(payload.getUrl());
+        articleRepository.save(article) ;
+        return  articleMapper.convertToArticlePreview(article) ;
+
 
     }
 }
