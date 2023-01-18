@@ -1,9 +1,6 @@
 package com.ismail.personalblogpost.config;
 
-import com.ismail.personalblogpost.auth.AuthService;
-import com.ismail.personalblogpost.auth.CustomAuthorizationFilter;
-import com.ismail.personalblogpost.auth.CustomUsernameAndPasswordAuthFilter;
-import com.ismail.personalblogpost.auth.UserRoles;
+import com.ismail.personalblogpost.auth.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -38,11 +38,12 @@ public class SecurityConfig {
                                                    CustomAuthorizationFilter authorizationFilter
     ) throws Exception {
         http.csrf().disable();
+        http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeHttpRequests()
 // ------------------  For Dev  Purposes (To be Removed )
-                .requestMatchers("/**").permitAll() ;
+                .requestMatchers("/**").permitAll();
 // -----------------------------------------
 //                .requestMatchers("/api/v1/auth/**").permitAll()
 //                .requestMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
@@ -65,5 +66,22 @@ public class SecurityConfig {
         provider.setUserDetailsService(authService);
         provider.setHideUserNotFoundExceptions(false);
         return builder.authenticationProvider(provider).parentAuthenticationManager(null).build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4000")
+                        .allowedMethods("GET","POST","OPTIONS","DELETE","PUT","PATCH")
+                        .allowedHeaders(JwToken.AUTHORIZATION,"Content-Type")
+                        .exposedHeaders(JwToken.AUTHORIZATION)
+                        .allowCredentials(true)
+
+                ;
+            }
+        };
     }
 }
