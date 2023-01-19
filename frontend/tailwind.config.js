@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: ["./src/**/*.{html,ts}"],
   theme: {
     fontFamily: {
@@ -12,7 +13,11 @@ module.exports = {
         "sans-serif",
       ],
     },
-    extend: {},
+    extend: {
+      colors: {
+        "darker-blue": "#161A1D",
+      },
+    },
   },
   plugins: [],
 };
