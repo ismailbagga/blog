@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { ArticleRoutingModule } from './article-routing.module';
 import { HomeComponent } from './features/home/home.component';
-
+import { SubscriptionFormComponent } from './ui/subscription-form/subscription-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    HomeComponent
-  ],
-  imports: [
-    CommonModule,
-    ArticleRoutingModule
-  ]
+  declarations: [HomeComponent, SubscriptionFormComponent],
+  imports: [CommonModule, ArticleRoutingModule, ReactiveFormsModule],
 })
-export class ArticleModule { }
+export class ArticleModule {}

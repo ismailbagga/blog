@@ -1,0 +1,29 @@
+<form action="" class="" (submit)="onSubmit($event)">
+  <!--  ------------------ Label    ------------------------------>
+  <h1 class="text-5xl text-center lg:text-start font-bold leading-snug">
+    <span class="underline">Subscribe</span> Now <br />To Get Notify when
+    <br />
+    <span>Article</span> is Uploaded
+  </h1>
+  <div
+    class="flex sm:border-2 flex-col sm:flex-row input-contaienr mx-auto lg:mx-0 sm:w-fit mt-5 rounded-xl border-0 dark:border-darkerBlue"
+  >
+    <input
+      [formControl]="emailCtrl"
+      class="sm:rounded-l-xl text-center sm:text-start w-full border-2 sm:border-0 outline-none h-10 text-black sm:border-none px-5 placeholder:text-gray-700"
+      placeholder="Please Enter Your Email here"
+    />
+    <button
+      class="bg-black px-5 mt-5 sm:mt-0 h-10 text-white text-md font-semibold"
+    >
+      Subscribe
+    </button>
+  </div>
+  <div
+    class="errors text-center lg:text-start text-red-700 mt-5"
+    *ngIf="emailCtrl.errors && emailCtrl.dirty"
+  >
+    <p *ngIf="emailCtrl.hasError('required')">Please Enter You Email</p>
+    <p *ngIf="emailCtrl.hasError('email')">Please Enter A Valid Email</p>
+  </div>
+</form>

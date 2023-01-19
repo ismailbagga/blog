@@ -53,7 +53,7 @@ export class SideBarComponent implements OnInit, AfterViewInit, OnChanges {
       this.trackWindowResizing();
     } else {
       this.untrackWindowResizing();
-      document.body.style.overflowY = 'hidden';
+      document.body.style.overflowY = 'auto';
     }
   }
   @HostListener('window.resier')
