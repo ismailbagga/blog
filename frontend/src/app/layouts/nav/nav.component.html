@@ -1,1 +1,34 @@
-<p>nav works!</p>
+<section class="w-full relative">
+  <nav
+    class="flex flex-row items-center h-32 pt-10 px-5 py-2 max-w-5xl mx-auto"
+  >
+    <div class="flex items-center space-x-3 logo-image">
+      <img src="../../../assets/images/logo.jpg" class="w-12 rounded-full" />
+      <h1 class="text-sm font-semibold">Ismail Bagga</h1>
+    </div>
+
+    <ul class="hidden sm:flex flex-row items-center ml-auto">
+      <li class="text-xl font-semibold">
+        <a [routerLink]="['/']">Home</a>
+      </li>
+      <li class="ml-6 cursor-pointer text-xl font-semibold">
+        <a [routerLink]="['/blogs']">Blogs</a>
+      </li>
+      <li class="ml-5 text-xl font-semibold">
+        <a [routerLink]="['/tags']">Tags</a>
+      </li>
+    </ul>
+    <button class="sm:ml-10 ml-auto" (click)="changeTheme()">
+      <img
+        class="w-8 -rotate-45"
+        [src]="
+          isLightTheme
+            ? 'assets/icons/moon-solid-light-mode.svg'
+            : 'assets/icons/sun-solid-dark-mode.svg'
+        "
+        alt="not-found"
+      />
+    </button>
+    <app-side-bar [isLightTheme]="isLightTheme"></app-side-bar>
+  </nav>
+</section>

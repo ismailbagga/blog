@@ -1,0 +1,24 @@
+<button class="sm:hidden ml-5 w-8" (click)="toggleSideNav()">
+  <svg xmlns="http://www.w3.org/2000/svg" #svg viewBox="0 0 1792 1792">
+    <path
+      d="M1664 1344v128q0 26-19 45t-45 19H192q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19H192q-26 0-45-19t-19-45V832q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19H192q-26 0-45-19t-19-45V320q0-26 19-45t45-19h1408q26 0 45 19t19 45z"
+      class="color000000 svgShape"
+    ></path>
+  </svg>
+</button>
+<aside
+  [ngClass]="isSideNavVisible ? '-translate-x-0' : 'translate-x-full'"
+  class="absolute pl-10 py-10 right-0 top-32 dark:bg-white/50 bg-gray-500/80 h-[500rem] w-full transition-transform"
+>
+  <ul class="flex space-y-10 flex-col ml-auto">
+    <li class="text-3xl font-bold">
+      <a [routerLink]="['/']">Home</a>
+    </li>
+    <li class="cursor-pointer text-3xl font-bold">
+      <a [routerLink]="['/blogs']">Blogs</a>
+    </li>
+    <li class="text-3xl font-bold">
+      <a [routerLink]="['/tags']">Tags</a>
+    </li>
+  </ul>
+</aside>
