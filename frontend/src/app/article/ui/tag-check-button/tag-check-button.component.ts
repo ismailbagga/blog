@@ -16,6 +16,7 @@ import { TagWithCount } from '../../http/http-service.service';
 export class TagCheckButtonComponent implements OnInit {
   @Input('tag') tag!: TagWithCount;
   @Input('isChecked') isChecked = false;
+  @Input('showCount') showCount = true;
   @Output('onCheckBtnClicked') onClicked = new EventEmitter<number>();
   constructor() {}
 

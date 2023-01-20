@@ -12,9 +12,16 @@
 
 <!-- Articles Preview By Tags  -->
 
-<section id="articles-preview-by-tags" class="mt-5">
+<section id="articles-preview-by-tags" class="mt-5 px-5">
   <nav class="">
     <ul class="flex flex-wrap justify-center">
+      <li>
+        <app-tag-check-button
+          [tag]="latestTag"
+          [isChecked]="tagsToSearchFor.has(latestTag.id)"
+          (onCheckBtnClicked)="addTag($event)"
+        ></app-tag-check-button>
+      </li>
       <li *ngFor="let tag of tags">
         <app-tag-check-button
           [tag]="tag"
@@ -24,4 +31,10 @@
       </li>
     </ul>
   </nav>
+  <div class="articles flex flex-col space-y-10 w-fit mx-auto mt-10">
+    <app-article-preview
+      *ngFor="let article of filteredArticles"
+      [articel]="article"
+    ></app-article-preview>
+  </div>
 </section>
