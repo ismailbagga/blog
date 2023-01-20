@@ -1,6 +1,7 @@
 package com.ismail.personalblogpost.config;
 
 import com.ismail.personalblogpost.auth.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -25,7 +26,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+    @Value("${cors.config.origin}")
+    private String origin ;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,7 +76,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4000")
+                        .allowedOrigins(origin)
                         .allowedMethods("GET","POST","OPTIONS","DELETE","PUT","PATCH")
                         .allowedHeaders(JwToken.AUTHORIZATION,"Content-Type")
                         .exposedHeaders(JwToken.AUTHORIZATION)
