@@ -9,3 +9,19 @@
     <div class="w-full h-56 shadow-xl bg-pink-400 rounded"></div>
   </div>
 </section>
+
+<!-- Articles Preview By Tags  -->
+
+<section id="articles-preview-by-tags" class="mt-5">
+  <nav class="">
+    <ul class="flex flex-wrap justify-center">
+      <li *ngFor="let tag of tags">
+        <app-tag-check-button
+          [tag]="tag"
+          [isChecked]="tagsToSearchFor.has(tag.id)"
+          (onCheckBtnClicked)="addTag($event)"
+        ></app-tag-check-button>
+      </li>
+    </ul>
+  </nav>
+</section>

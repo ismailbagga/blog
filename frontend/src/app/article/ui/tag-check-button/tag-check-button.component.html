@@ -1,0 +1,15 @@
+<div
+  class="border-2 dark:border-white border-gray-600 text-xl ml-10 mt-5"
+  [ngClass]="{ 'border-4 border-black': isChecked }"
+>
+  <input
+    type="checkbox"
+    class="hidden"
+    [id]="tag.id"
+    (change)="onClicked.emit(tag.id)"
+  />
+  <label class="flex" [htmlFor]="tag.id">
+    <h1 class="px-5 py-2">{{ tag.title }}</h1>
+    <div class="u-center ml-auto items-stretch px-2 bg-gray-500">20</div>
+  </label>
+</div>
