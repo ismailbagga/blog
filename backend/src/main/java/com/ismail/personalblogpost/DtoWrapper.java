@@ -8,12 +8,16 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public abstract class DtoWrapper {
     //    ----------------- Global Slug Dto
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     private static class SlugDto {
         @Pattern(regexp = "(^a-z1-9-$)|(^.{0}$)")
         private String slug;
@@ -65,18 +69,29 @@ public abstract class DtoWrapper {
 
     @Data
     @NoArgsConstructor
+    @Builder
+    @AllArgsConstructor
     @ToString
-    public static class ArticlePreview {
+    public static class ArticlePreview  {
         private Long id;
         private String title;
         private String slug;
         private String description;
         private String url;
-        private LocalDate createdAt;
+        private LocalDateTime createdAt;
         private LocalDate updatedAt;
+        private int readingTime ;
         private Set<BasicTagDto> relatedTags;
     }
-
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static  class ListOfArticlesWithTotalElements {
+        Integer count ;
+        List<ArticlePreview> articlePreviews ;
+    }
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
@@ -141,11 +156,18 @@ public abstract class DtoWrapper {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     public static class BasicTagDto extends SlugDto {
         Long id;
         @NotBlank
         String title;
 
+        public BasicTagDto( Long id ,String title, String slug) {
+            super(slug);
+            this.id = id;
+            this.title = title;
+        }
     }
 
     @Getter

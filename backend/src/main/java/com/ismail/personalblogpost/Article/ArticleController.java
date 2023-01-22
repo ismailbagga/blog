@@ -39,9 +39,20 @@ public class ArticleController {
         log.debug("tags passed are -> {}", Arrays.toString(tags));
         return ResponseEntity.ok(articleService.findArticleByRelatedTags(tags)) ;
     }
-    @GetMapping("/search/title")
-    public ResponseEntity<List<DtoWrapper.ArticlePreview>> findArticleByTitle(@RequestParam("title") String title) {
-        return ResponseEntity.ok(articleService.findArticleByContainingTerm(title)) ;
+    @GetMapping("/search/title/{offset}")
+    public ResponseEntity<List<DtoWrapper.ArticlePreview>> findArticleByTitle(
+            @PathVariable int  offset ,
+            @RequestParam("title") String title) {
+        if ( offset < 0 ) offset = 0 ;
+        return ResponseEntity.ok(articleService.findArticleByTerm(title,offset)) ;
+    }
+
+    @GetMapping("/search/title/total/{offset}")
+    public ResponseEntity<DtoWrapper.ListOfArticlesWithTotalElements> findArticleByTitleWithTotalElements(
+            @PathVariable int  offset ,
+            @RequestParam("title") String title) {
+        if ( offset < 0 ) offset = 0 ;
+        return ResponseEntity.ok(articleService.findArticleWithTotalElementsByTerm(title,offset)) ;
     }
 
     @PostMapping("/signature")
