@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 
+import java.time.*;
 import java.util.regex.Pattern;
 
 @SpringBootApplication()
@@ -19,6 +20,16 @@ public class PersonalBlogPostApplication {
 //		String path = "data-structure" ;
 //
 //		System.out.println(pattern.matcher(path).find()) ;
+//		ZoneId.getAvailableZoneIds().forEach(System.out::println);
+////		Etc/GMT+1
+//		var instance = Instant.now() ;
+//		LocalDateTime.ofInstant(instance,Clock.systemUTC().getZone())
+//		var date = LocalDate.now(ZoneId.of("Japan")) ;
+//		System.out.println(instance);
+//		System.out.println(instance.atZone(ZoneId.of("Japan")));
+//
+//		var convertedTime = LocalDateTime.ofInstant(instance,Clock.systemUTC().getZone()) ;
+//		System.out.println(convertedTime);
 	}
 
 }

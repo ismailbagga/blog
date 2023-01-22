@@ -13,7 +13,8 @@ public class MarkdownContent {
     @Id
     private long articleId ;
     @MapsId()
-    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.REMOVE})
+
     Article article ;
     @Column(columnDefinition = "TEXT")
     String content ;

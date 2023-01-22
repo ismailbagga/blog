@@ -4,10 +4,7 @@ import jakarta.persistence.PrePersist;
 import org.springframework.context.annotation.Scope;
 import org.springframework.validation.BindingResult;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -35,4 +32,5 @@ public class Utils {
         var len = errors.length()-1 ;
         return errors.delete(len-2,len).append("}").toString();
     }
+
 }

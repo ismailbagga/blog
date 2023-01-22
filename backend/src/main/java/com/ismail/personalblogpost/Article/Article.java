@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
@@ -39,7 +41,8 @@ public class Article {
     @UpdateTimestamp
     private LocalDate updatedAt;
     @OneToOne(orphanRemoval = true
-            ,mappedBy = "article",fetch = FetchType.LAZY)
+            ,mappedBy = "article",fetch = FetchType.LAZY ,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @LazyToOne(value = LazyToOneOption.NO_PROXY)
     MarkdownContent markdownContent ;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,10 +58,4 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", nullable = false)
     )
     private Set<Tag> relatedTags;
-    public String getContent() {
-        return  markdownContent.getContent() ;
-    }
-    public void setContent(String markdownContent) {
-        this.markdownContent = new MarkdownContent(this,markdownContent) ;
-    }
 }
