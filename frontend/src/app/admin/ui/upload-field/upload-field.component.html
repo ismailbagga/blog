@@ -1,0 +1,51 @@
+<div class="">
+  <div
+    class="flex flex-col items-center space-y-6 table:space-y-0 tablet:flex-row tablet:items-center tablet:justify-between w-full border-dashed border-white border-[2px] p-5 mt-5"
+  >
+    <div class="image-preview">
+      <img
+        [src]="imgPreviewSrc ?? placeHolder"
+        alt=""
+        class="w-32 h-32"
+        #preview
+      />
+    </div>
+    <p class="sm:text-2xl text-xl text-center">
+      upload a {{ imageFor }} , max size is {{ maxSizeInMb }} MB
+    </p>
+    <div class="upload-field">
+      <input
+        type="file"
+        name=""
+        id="uploadField"
+        accept="image/png,image/jpg,image/jpeg"
+        class="hidden"
+        (change)="fileInputChangeHandler($event)"
+      />
+      <label for="uploadField"
+        ><span
+          class="block border-[1px] px-8 py-2 rounded-lg border-white text-xl"
+          >Browse</span
+        ></label
+      >
+    </div>
+  </div>
+
+  <ng-container *ngIf="controler.hasError && controler.touched">
+    <p class="text-red-600 w-full mt-3" *ngIf="controler.hasError('required')">
+      Please Insert Image
+    </p>
+    <p
+      class="text-red-600 w-full mt-3"
+      *ngIf="controler.hasError('invalidSize')"
+    >
+      size must be less then 2 mb
+    </p>
+    <p
+      class="text-red-600 w-full mt-3"
+      *ngIf="controler.hasError('invalidType')"
+    >
+      Image need to be type of png , jpg or jpeg
+    </p>
+  </ng-container>
+</div>

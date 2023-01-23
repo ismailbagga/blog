@@ -31,12 +31,14 @@
             >
           </td>
           <td class="px-6 py-4">
-            <button
+            <a
+              [routerLink]="['/update', 'article', article.slug]"
+              routerLinkActive="router-link-active"
               (click)="isModelHidden = false"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
               Edit
-            </button>
+            </a>
           </td>
           <td class="px-6 py-4">
             <button

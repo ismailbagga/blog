@@ -1,0 +1,12 @@
+<section class="mt-10">
+  <div>
+    <h1 class="text-3xl underline underline-offset-8">Upload Article Image</h1>
+    <app-upload-field
+      title="Blog Profile Picture"
+      imageFor="Blog Image"
+      class="xl:col-span-2"
+      [maxSizeInMb]="2"
+      [controler]="form.controls.image"
+    ></app-upload-field>
+  </div>
+</section>

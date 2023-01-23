@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminTagListComponent } from './features/admin-tag-list/admin-tag-list.component';
+import { CreateArticleComponent } from './features/create-article/create-article.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,18 @@ const routes: Routes = [
       },
       {
         path: 'tags',
+        component: AdminTagListComponent,
+      },
+      {
+        path: 'update/article/:slug',
+        component: AdminTagListComponent,
+      },
+      {
+        path: 'create/article',
+        component: CreateArticleComponent,
+      },
+      {
+        path: 'update/tags/:slug',
         component: AdminTagListComponent,
       },
     ],
