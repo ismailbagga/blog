@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 export type ArticlePreview = {
   id: number;
-  title: number;
+  title: string;
   slug: number;
   description: number;
   url: string;

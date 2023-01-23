@@ -1,31 +1,17 @@
+
+
 <section class="mt-10 px-5 w-fi- mx-auto">
-  <h1 class="text-6xl font-bold">All Posts</h1>
-  <form
-    class="flex item center border-4 px-5 py-1 w-fit mt-5 dark:border-[#626668] dark:bg-[#252323]"
-    action=""
-  >
-    <input
-      [formControl]="titleCtrl"
-      class="outline-none border-none pr-5 py-2 w-[20rem] bg-transparent dark:placeholder:text-gray-500 placeholder:text-gray-700"
-      placeholder="Searching  For Article By Title"
-    />
-    <button>
-      <svg
-        class="w-8 cursor-pointer"
-        fill="#000"
-        fill="#626668"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M3.624,15a8.03,8.03,0,0,0,10.619.659l5.318,5.318a1,1,0,0,0,1.414-1.414l-5.318-5.318A8.04,8.04,0,0,0,3.624,3.624,8.042,8.042,0,0,0,3.624,15Zm1.414-9.96a6.043,6.043,0,1,1-1.77,4.274A6,6,0,0,1,5.038,5.038Z"
-        />
-      </svg>
-    </button>
-  </form>
-  <hr class="mt-5 text-black dark:text-white" />
+  <app-search-form
+    [controler]="titleCtrl"
+    header="All Posts"
+    keyword="Articles"
+  ></app-search-form>
+
   <h1 *ngIf="searchData.loading">Loading ...</h1>
-  <h1 *ngIf="!searchData.loading && resultSet.length === 0" lass="mt-10 text-6xl">
+  <h1
+    *ngIf="!searchData.loading && resultSet.length === 0"
+    lass="mt-10 text-6xl"
+  >
     No Result
   </h1>
   <section *ngIf="resultSet.length > 0 && !searchData.loading">

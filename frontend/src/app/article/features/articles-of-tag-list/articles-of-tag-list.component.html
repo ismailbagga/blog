@@ -1,0 +1,25 @@
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<section *ngIf="!loading" class="mt-10 px-5">
+  <app-search-form
+    [header]="'Articles of ' + tag.title"
+    [controler]="titleField"
+  ></app-search-form>
+  <div>
+    <div class="articles flex flex-col space-y-10 mx-auto w-fit mt-10">
+      <app-article-preview
+        *ngFor="let article of filteredArticle"
+        [articel]="article"
+      ></app-article-preview>
+    </div>
+    <h1 *ngIf="!loading && articles.length === 0" class="text-4xl mt-10">
+      This Tag has no Articles
+    </h1>
+    <h1
+      *ngIf="!loading && filteredArticle.length === 0 && articles.length !== 0"
+      class="text-4xl mt-10"
+    >
+      No Result
+    </h1>
+  </div>
+</section>

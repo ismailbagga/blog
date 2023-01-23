@@ -10,6 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TagCheckButtonComponent } from './ui/tag-check-button/tag-check-button.component';
 import { ArticlePreviewComponent } from './ui/article-preview/article-preview.component';
 import { TagPillComponent } from './ui/tag-pill/tag-pill.component';
+import { TagsListComponent } from './features/tags-list/tags-list.component';
+import { SearchFormComponent } from './ui/search-form/search-form.component';
+import { ArticlesOfTagListComponent } from './features/articles-of-tag-list/articles-of-tag-list.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -19,12 +23,16 @@ import { TagPillComponent } from './ui/tag-pill/tag-pill.component';
     ArticlePreviewComponent,
     ArticleSearchComponent,
     TagPillComponent,
+    TagsListComponent,
+    SearchFormComponent,
+    ArticlesOfTagListComponent,
   ],
   imports: [
     CommonModule,
     ArticleRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule,
   ],
 })
 export class ArticleModule {}

@@ -8,7 +8,7 @@ export type ArticlePreviwWithResultCount = {
 };
 export type ArticlePreview = {
   id: number;
-  title: number;
+  title: string;
   slug: number;
   description: number;
   url: string;
@@ -20,6 +20,12 @@ export type Tag = {
   id: number;
   title: string;
   slug: string;
+};
+export type TagWithArticles = {
+  id: number;
+  title: string;
+  slug: string;
+  relatedArticles: ArticlePreview[];
 };
 export type TagWithCount = {
   id: number;
@@ -56,5 +62,9 @@ export class ArticleHttpService {
     return this.http.get<ArticlePreviwWithResultCount>(searchEndpoint, {
       params,
     });
+  }
+  fetchTagWithRelatedArticleBySlug(slug: string) {
+    const url = `${this.tagsEndpoint}/related/${slug}/articles`;
+    return this.http.get<TagWithArticles>(url);
   }
 }

@@ -1,0 +1,13 @@
+<section class="mt-10">
+  <ul class="flex flex-wrap justify-center">
+    <li *ngFor="let tag of tags">
+      <a>
+        <app-tag-check-button
+          [tag]="tag"
+          [isChecked]="false"
+          (onCheckBtnClicked)="onTagClicked($event)"
+        ></app-tag-check-button>
+      </a>
+    </li>
+  </ul>
+</section>
