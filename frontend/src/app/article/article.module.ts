@@ -1,6 +1,7 @@
+import { ArticleSearchComponent } from './features/article-search/article-search.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HttpClientModule} from '@angular/common/http' ;
+import { HttpClientModule } from '@angular/common/http';
 
 import { ArticleRoutingModule } from './article-routing.module';
 import { HomeComponent } from './features/home/home.component';
@@ -11,7 +12,19 @@ import { ArticlePreviewComponent } from './ui/article-preview/article-preview.co
 import { TagPillComponent } from './ui/tag-pill/tag-pill.component';
 
 @NgModule({
-  declarations: [HomeComponent, SubscriptionFormComponent, TagCheckButtonComponent, ArticlePreviewComponent, TagPillComponent],
-  imports: [CommonModule, ArticleRoutingModule, ReactiveFormsModule ,HttpClientModule],
+  declarations: [
+    HomeComponent,
+    SubscriptionFormComponent,
+    TagCheckButtonComponent,
+    ArticlePreviewComponent,
+    ArticleSearchComponent,
+    TagPillComponent,
+  ],
+  imports: [
+    CommonModule,
+    ArticleRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
 })
 export class ArticleModule {}
