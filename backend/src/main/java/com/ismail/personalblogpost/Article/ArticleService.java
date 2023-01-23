@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 public class ArticleService {
-    private final int ARTICLES_SEARCH_PAGE_SIZE = 2;
+    private final int ARTICLES_SEARCH_PAGE_SIZE = 8;
     private final ArticleRepository articleRepository;
     private final TagRepository tagRepository;
     private final CloudinaryImageService cloudinaryImageService;
@@ -141,9 +141,8 @@ public class ArticleService {
 
 
     @Transactional
-    public List<ArticlePreview> findArticleByTerm(String title, int offset) {
-        if (title.strip().equals("")) return List.of();
-        var resultSet = articleRepository.findByTitleIsContainingIgnoreCase(title,offset*ARTICLES_SEARCH_PAGE_SIZE,ARTICLES_SEARCH_PAGE_SIZE);
+    public List<ArticlePreview> findArticleByTerm(String term, int page) {
+        var resultSet = articleRepository.findByTitleIsContainingIgnoreCase(term,page*ARTICLES_SEARCH_PAGE_SIZE,ARTICLES_SEARCH_PAGE_SIZE);
         return  convertTupleToArticlePreview(resultSet) ;
     }
     List<ArticlePreview> convertTupleToArticlePreview(Stream<Tuple> tupleStream) {
@@ -169,9 +168,13 @@ public class ArticleService {
 
     }
     @Transactional
-    public DtoWrapper.ListOfArticlesWithTotalElements findArticleWithTotalElementsByTerm(String title, int offset) {
-        var pageResponse = articleRepository.findByTitleIsContainingIgnoreCase(title,offset*ARTICLES_SEARCH_PAGE_SIZE,ARTICLES_SEARCH_PAGE_SIZE)  ;
-        var totalRows = articleRepository.findByTotalTitleIsContainingIgnoreCase(title) ;
+    public DtoWrapper.ListOfArticlesWithTotalElements findArticleWithTotalElementsByTerm(String term, int page) {
+        var totalRows = articleRepository.findByTotalTitleIsContainingIgnoreCase(term) ;
+        var offset = page*ARTICLES_SEARCH_PAGE_SIZE ;
+        var maxPages = Math.ceil((double)totalRows / ARTICLES_SEARCH_PAGE_SIZE);
+        System.out.println(maxPages);
+        if ( page > maxPages )  throw new APIException("this page is exceeding max page :"+(int)maxPages,HttpStatus.BAD_REQUEST) ;
+        var pageResponse = articleRepository.findByTitleIsContainingIgnoreCase(term,offset,ARTICLES_SEARCH_PAGE_SIZE)  ;
         return DtoWrapper.ListOfArticlesWithTotalElements.builder()
                 .count(totalRows)
                 .articlePreviews(convertTupleToArticlePreview(pageResponse))

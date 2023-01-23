@@ -24,9 +24,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "FROM article art  " +
             "LEFT JOIN tag_of_article ta ON  ta.article_id = art.id " +
             "LEFT JOIN tag as  t ON t.id = ta.tag_id  " +
-            "WHERE  upper(art.title) LIKE CONCAT('%',upper(:title) ,'%') " +
+            "WHERE art.id  IN " +
+            "(SELECT a2.id FROM article a2 WHERE  upper(a2.title) LIKE CONCAT('%',upper(:title) ,'%') " +
             "OFFSET  :offset " +
-            "LIMIT :pageSize",
+            "LIMIT :pageSize )",
             nativeQuery = true
     )
     Stream<Tuple> findByTitleIsContainingIgnoreCase(@Param("title") String title, int offset, int pageSize);
