@@ -20,7 +20,7 @@ public class JwToken {
     public static  final String AUTHORIZATION = "authorization" ;
     public static  final String TOKEN_PREFIX = "Bearer " ;
     public  static final String ACCESS_TOKEN_HEADER = "access_token" ;
-    public  static final String REFRESH_TOKEN_COOKIE = "jit" ;
+    public  static final String REFRESH_TOKEN_COOKIE = "SECURITY" ;
     @Value("${JWT.access_secret_key}")
     private String accessSecret ;
     @Value("${JWT.refresh_secret_key}")

@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Component
@@ -60,6 +62,8 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
         var principal = (UserDetails) authResult.getPrincipal();
         var tokens = jwToken.createJwtTokens(principal);
         var cookie = new Cookie(JwToken.REFRESH_TOKEN_COOKIE, tokens.refreshToken());
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
         response.setStatus(HttpStatus.OK.value());
         response.setHeader(JwToken.AUTHORIZATION, tokens.refreshToken());
         response.addCookie(cookie);

@@ -15,6 +15,12 @@
       <li class="ml-5 text-xl font-semibold">
         <a [routerLink]="['/tags']">Tags</a>
       </li>
+      <li
+        *ngIf="authService.stateAsObserbavle() | async"
+        class="ml-5 text-xl font-semibold"
+      >
+        <a [routerLink]="['/admin']">Admin</a>
+      </li>
     </ul>
     <button class="sm:ml-10 ml-auto" (click)="changeTheme()">
       <img

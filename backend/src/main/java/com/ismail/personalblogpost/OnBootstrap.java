@@ -6,6 +6,7 @@ import com.ismail.personalblogpost.auth.UserRoles;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class OnBootstrap implements CommandLineRunner {
@@ -18,6 +19,7 @@ public class OnBootstrap implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         String username = "james" ;
 
@@ -30,5 +32,6 @@ public class OnBootstrap implements CommandLineRunner {
                     .build() ;
             userRepository.save(buildUser) ;
         }
+        else  user.get().setUnlockedAt(null);
     }
 }

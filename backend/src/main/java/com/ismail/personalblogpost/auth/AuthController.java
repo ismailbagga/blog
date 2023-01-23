@@ -6,10 +6,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Arrays;
 
 @RestController
@@ -22,10 +25,13 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-//  POST login
+
+    //  POST login
     @PostMapping("/refresh")
     public void getAccessTokenFromRefreshToken(HttpServletRequest request, HttpServletResponse response) {
         var cookies = request.getCookies();
+        if (cookies == null || cookies.length == 0)
+            throw new APIException("refresh token cookie was not  found", HttpStatus.BAD_REQUEST);
         var refreshCookie = Arrays.stream(cookies)
                 .filter((cookie -> cookie.getName().equals(JwToken.REFRESH_TOKEN_COOKIE)))
                 .findFirst();
@@ -37,4 +43,5 @@ public class AuthController {
         log.info(refreshToken);
         response.setHeader(JwToken.AUTHORIZATION, authService.generateAccessToken(refreshToken));
     }
+
 }

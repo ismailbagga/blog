@@ -1,0 +1,24 @@
+<div class="mt-5">
+  <label for="password" class="text-sm font-medium">{{ label }}</label>
+
+  <div class="relative mt-1">
+    <input
+      [formControl]="fieldControler"
+      [type]="type"
+      class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+      [placeholder]="placeholder"
+    />
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="errors mt-1"
+    *ngIf="fieldControler.errors && fieldControler.touched"
+  >
+    <p class="text-red-600" *ngIf="fieldControler.hasError('required')">
+      Field Is Required
+    </p>
+    <p class="text-red-600" *ngIf="fieldControler.hasError('email')">
+      Enter A Valid Email
+    </p>
+  </div>
+</div>

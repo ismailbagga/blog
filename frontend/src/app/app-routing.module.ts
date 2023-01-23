@@ -1,10 +1,18 @@
+import { LoginStateGuard } from './core/guard/login-state.guard';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanLoad } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'admin',
+    canLoad: [LoginStateGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

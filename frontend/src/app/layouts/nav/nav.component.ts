@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { AuthService } from 'src/app/core/global-services/auth.service';
 type Theme = 'light' | 'dark';
 @Component({
   selector: 'app-nav',
@@ -15,7 +16,10 @@ type Theme = 'light' | 'dark';
 })
 export class NavComponent implements OnInit {
   isLightTheme = false;
-  constructor(private cdRef: ChangeDetectorRef) {
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    public authService: AuthService
+  ) {
     const theme: Theme | null = localStorage.getItem('theme') as Theme;
 
     if (theme === 'dark') this.isLightTheme = false;
