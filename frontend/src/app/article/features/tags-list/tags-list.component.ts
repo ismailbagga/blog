@@ -1,8 +1,9 @@
-import { TagWithCount } from './../../http/http-service.service';
-import { ArticleHttpService } from './../../http/http-article.service';
+import {
+  ArticleHttpService,
+  TagWithCount,
+} from '../../../core/global-services/http-article.service';
 import { FormControl } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
-import { Tag } from '../../http/http-service.service';
 import { Router } from '@angular/router';
 
 @Component({

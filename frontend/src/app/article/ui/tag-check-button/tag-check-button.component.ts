@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { TagWithCount } from '../../http/http-service.service';
+import { TagWithCount } from '../../../core/global-services/http-article.service';
 
 @Component({
   selector: 'app-tag-check-button',

@@ -67,4 +67,7 @@ export class ArticleHttpService {
     const url = `${this.tagsEndpoint}/related/${slug}/articles`;
     return this.http.get<TagWithArticles>(url);
   }
+  deleteArticle(articleId: number) {
+    return this.http.delete(`${this.articlesEndpoint}/${articleId}`);
+  }
 }

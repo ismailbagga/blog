@@ -7,8 +7,8 @@ import { FormControl } from '@angular/forms';
 import {
   ArticleHttpService,
   ArticlePreviwWithResultCount,
-} from './../../http/http-article.service';
-import { ArticlePreview } from '../../http/http-article.service';
+} from '../../../core/global-services/http-article.service';
+import { ArticlePreview } from '../../../core/global-services/http-article.service';
 import {
   AfterViewInit,
   Component,

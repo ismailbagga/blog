@@ -1,10 +1,12 @@
-import { ArticlePreview } from './../../http/http-service.service';
 import { FormControl } from '@angular/forms';
 import { of, switchMap, EMPTY, map, catchError, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ArticleHttpService } from './../../http/http-article.service';
+import {
+  ArticleHttpService,
+  ArticlePreview,
+} from '../../../core/global-services/http-article.service';
 import { Component, OnInit } from '@angular/core';
-import { Tag } from '../../http/http-article.service';
+import { Tag } from '../../../core/global-services/http-article.service';
 
 @Component({
   templateUrl: './articles-of-tag-list.component.html',

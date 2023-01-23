@@ -1,10 +1,10 @@
-import { ArticlePreview } from './../../http/http-service.service';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
+import { ArticlePreview } from '../../../core/global-services/http-article.service';
 
 @Component({
   selector: 'app-article-preview',

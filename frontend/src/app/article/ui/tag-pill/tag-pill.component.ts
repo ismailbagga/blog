@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Tag } from '../../http/http-service.service';
+import { Tag } from '../../../core/global-services/http-article.service';
 
 @Component({
   selector: 'app-tag-pill',

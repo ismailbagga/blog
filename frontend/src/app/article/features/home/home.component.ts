@@ -1,6 +1,6 @@
-import { ArticlePreview } from './../../http/http-service.service';
+import { ArticleHttpService } from '../../../core/global-services/http-article.service';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { HttpServices, TagWithCount } from '../../http/http-service.service';
+import { ArticlePreview, TagWithCount } from '../../../core/global-services/http-article.service';
 
 @Component({
   templateUrl: './home.component.html',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   filteredArticles: ArticlePreview[] = [];
   tagsToSearchFor: Set<number> = new Set([-1]);
   constructor(
-    private httpService: HttpServices,
+    private httpService: ArticleHttpService,
     private cdRef: ChangeDetectorRef
   ) {
     httpService.fetchAllTagWithCount().subscribe((result) => {
