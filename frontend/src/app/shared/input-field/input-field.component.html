@@ -5,7 +5,7 @@
     <textarea
       *ngIf="type === 'placeholder'; else ifNotPlaceholder"
       [formControl]="fieldControler"
-      class="w-full rounded-lg border-gray-200 p-3 text-sm"
+      class="w-full rounded-lg text-black border-gray-200 p-3 text-sm"
       placeholder="Message"
       rows="8"
       id="message"
@@ -29,6 +29,19 @@
     </p>
     <p class="text-red-600" *ngIf="fieldControler.hasError('email')">
       Enter A Valid Email
+    </p>
+    <p class="text-red-600" *ngIf="fieldControler.hasError('pattern')">
+      Invalid Pattern
+    </p>
+    <p class="text-red-600 w-full" *ngIf="fieldControler.hasError('minlength')">
+      mininum char in this field is
+      {{ fieldControler.getError("minlength")["requiredLength"] }} but only
+      {{ fieldControler.getError("minlength")["actualLength"] }} char was there
+    </p>
+    <p class="text-red-600 w-full" *ngIf="fieldControler.hasError('min')">
+      mininum value is
+      {{ fieldControler.getError("min")["min"] }} but value entered is
+      {{ fieldControler.getError("min")["actual"] }}
     </p>
   </div>
 </div>

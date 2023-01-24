@@ -1,12 +1,11 @@
 package com.ismail.personalblogpost.Article;
 
-import com.ismail.personalblogpost.DtoWrapper;
-import com.ismail.personalblogpost.DtoWrapper.ArticlePreview;
-import com.ismail.personalblogpost.DtoWrapper.CloudinarySignature;
+import com.ismail.personalblogpost.dto.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper.ArticlePreview;
+import com.ismail.personalblogpost.dto.DtoWrapper.CloudinarySignature;
 import com.ismail.personalblogpost.Tag.Tag;
 import com.ismail.personalblogpost.Tag.TagRepository;
 import com.ismail.personalblogpost.Utils;
-import com.ismail.personalblogpost.config.ClockConfig;
 import com.ismail.personalblogpost.exception.APIException;
 import com.ismail.personalblogpost.mapper.ArticleMapper;
 import com.ismail.personalblogpost.mapper.TagMapper;
@@ -17,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.time.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -58,12 +55,15 @@ public class ArticleService {
     @Transactional
     public String saveArticle(DtoWrapper.ArticleUploadDto articleUploadDto) {
         articleUploadDto.setSlug(Utils.OnEmptySlug(articleUploadDto.getSlug(), articleUploadDto.getTitle()));
-//        cloudinaryImageService.validate();
+        var imagePayload = articleUploadDto.getImagePayload() ;
+
+        cloudinaryImageService.validate(imagePayload.getVersion(),imagePayload.getUrl(),imagePayload.getSignature());
         duplicateArticleHandler(articleUploadDto.getTitle(), articleUploadDto.getSlug());
 
         var article = articleMapper.convertUploadDtoToArticle(articleUploadDto);
         var content = new MarkdownContent(article, articleUploadDto.getContent());
         article.setMarkdownContent(content);
+        article.setUrl(imagePayload.getUrl());
         if (articleUploadDto.getTagIds().size() > 0) {
             Set<Tag> relatedTags = tagRepository.findTagByIdIn(articleUploadDto.getTagIds());
             article.setRelatedTags(relatedTags);

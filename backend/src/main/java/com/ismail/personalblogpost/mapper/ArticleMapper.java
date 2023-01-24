@@ -1,13 +1,12 @@
 package com.ismail.personalblogpost.mapper;
 
 import com.ismail.personalblogpost.Article.Article;
-import com.ismail.personalblogpost.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper;
 import com.ismail.personalblogpost.projectors.ArticleProjector;
 import jakarta.persistence.Tuple;
 
 import org.mapstruct.*;
 
-import java.sql.Date;
 import java.util.List;
 
 @Mapper(componentModel = "spring")

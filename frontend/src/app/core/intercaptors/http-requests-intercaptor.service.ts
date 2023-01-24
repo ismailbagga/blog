@@ -17,7 +17,9 @@ export class HttpRequestsIntercaptorService implements HttpInterceptor {
   public ACCESS_TOKEN_HEADER = 'access_token';
   public REFRESH_TOKEN_COOKIE = 'jit';
   public ENDPOINT_WICH_RETURNS_TOKEN: string[] = [];
-
+  public ENDPOINT_TO_NOT_ALTER = [
+    'https://api.cloudinary.com/v1_1/dphwfvqgn/image/upload',
+  ];
   constructor(private authService: AuthService) {
     this.ENDPOINT_WICH_RETURNS_TOKEN = [
       authService.loginEndpoint,
@@ -28,15 +30,17 @@ export class HttpRequestsIntercaptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const accessToken = this.authService.accessToken;
-    if (accessToken !== '') {
-      req.headers.append('authorization', accessToken);
-    }
-    console.log('login');
+    console.log(req.url);
 
-    req = req.clone({
-      withCredentials: true,
-    });
+    if (!this.ENDPOINT_TO_NOT_ALTER.includes(req.url)) {
+      const accessToken = this.authService.accessToken;
+      if (accessToken !== '') {
+        req.headers.append('authorization', accessToken);
+      }
+      req = req.clone({
+        withCredentials: true,
+      });
+    }
 
     return next.handle(req).pipe(
       tap((response) => {

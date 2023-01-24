@@ -1,7 +1,6 @@
 package com.ismail.personalblogpost.Article;
 
 import com.cloudinary.Util;
-import com.ismail.personalblogpost.DtoWrapper;
 import com.ismail.personalblogpost.exception.APIException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ismail.personalblogpost.DtoWrapper.*;
+import static com.ismail.personalblogpost.dto.DtoWrapper.*;
 
 @Service
 public class CloudinaryImageService {

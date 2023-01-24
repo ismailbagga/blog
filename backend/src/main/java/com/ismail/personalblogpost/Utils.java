@@ -25,7 +25,11 @@ public class Utils {
     public static String  mapErrorToMap(BindingResult bindingResult) {
         var errors  = new  StringBuilder().append("{");
         bindingResult.getAllErrors().forEach((objectError) -> {
-            var fieldName =  Objects.requireNonNull(objectError.getCodes())[0].split("\\.")[2] ;
+            System.out.println(Arrays.toString(objectError.getCodes()));
+            var fieldName = new StringBuilder() ; ;
+            var fullFieldError = Objects.requireNonNull(objectError.getCodes())[1].split("\\.") ;
+            for (int i = 1 ; i < fullFieldError.length ; i++)  fieldName.append(fullFieldError[i]).append(".") ;
+            fieldName.delete(fieldName.length()-1,fieldName.length()) ;
             errors.append(" %s : %s , ".formatted(fieldName,objectError.getDefaultMessage())) ;
         });
         // To Remove the Last ,

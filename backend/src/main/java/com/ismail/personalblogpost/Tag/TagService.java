@@ -1,7 +1,7 @@
 package com.ismail.personalblogpost.Tag;
 
-import com.ismail.personalblogpost.DtoWrapper;
-import com.ismail.personalblogpost.DtoWrapper.TagWithAllRelatedArticles;
+import com.ismail.personalblogpost.dto.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper.TagWithAllRelatedArticles;
 import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import com.ismail.personalblogpost.mapper.TagMapper;

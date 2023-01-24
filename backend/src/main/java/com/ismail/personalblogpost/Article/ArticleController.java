@@ -1,10 +1,11 @@
 package com.ismail.personalblogpost.Article;
 
-import com.ismail.personalblogpost.DtoWrapper;
-import com.ismail.personalblogpost.DtoWrapper.ArticleUploadDto;
+import com.ismail.personalblogpost.dto.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper.ArticleUploadDto;
 import com.ismail.personalblogpost.Utils;
 import com.ismail.personalblogpost.exception.APIException;
 import jakarta.validation.Valid;
+import jakarta.validation.Validation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

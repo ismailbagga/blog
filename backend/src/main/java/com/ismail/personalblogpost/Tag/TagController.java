@@ -1,8 +1,8 @@
 package com.ismail.personalblogpost.Tag;
 
-import com.ismail.personalblogpost.DtoWrapper;
-import com.ismail.personalblogpost.DtoWrapper.BasicTagWithCountOfArticlesDto;
-import com.ismail.personalblogpost.DtoWrapper.TagWithAllRelatedArticles;
+import com.ismail.personalblogpost.dto.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper.BasicTagWithCountOfArticlesDto;
+import com.ismail.personalblogpost.dto.DtoWrapper.TagWithAllRelatedArticles;
 import com.ismail.personalblogpost.exception.APIException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

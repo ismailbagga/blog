@@ -1,4 +1,4 @@
-package com.ismail.personalblogpost;
+package com.ismail.personalblogpost.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -19,7 +19,7 @@ public abstract class DtoWrapper {
     @AllArgsConstructor
     @NoArgsConstructor
     private static class SlugDto {
-        @Pattern(regexp = "(^a-z1-9-$)|(^.{0}$)")
+        @Pattern(regexp = "(^[a-z1-9-]+$)|(^.{0}$)")
         private String slug;
     }
 
@@ -29,14 +29,18 @@ public abstract class DtoWrapper {
     @Builder
     public static class CloudinarySignature {
         String signature;
-        Long expiredAtInSeconds;
+        Long timestamp;
     }
 
     @Data
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class ImagePayload {
+        @NotBlank
         String version;
+        @NotBlank
         String signature;
+        @NotBlank
         String url;
     }
 //    -------- Articles
@@ -72,7 +76,7 @@ public abstract class DtoWrapper {
     @Builder
     @AllArgsConstructor
     @ToString
-    public static class ArticlePreview  {
+    public static class ArticlePreview {
         private Long id;
         private String title;
         private String slug;
@@ -80,18 +84,20 @@ public abstract class DtoWrapper {
         private String url;
         private LocalDateTime createdAt;
         private LocalDate updatedAt;
-        private int readingTime ;
+        private int readingTime;
         private Set<BasicTagDto> relatedTags;
     }
+
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static  class ListOfArticlesWithTotalElements {
-        Integer count ;
-        List<ArticlePreview> articlePreviews ;
+    public static class ListOfArticlesWithTotalElements {
+        Integer count;
+        List<ArticlePreview> articlePreviews;
     }
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
@@ -136,13 +142,12 @@ public abstract class DtoWrapper {
         private String content;
         @NotNull
         private Set<Long> tagIds;
-        @NotBlank
-        private String url;
-        @Valid
-        private DtoWrapper.ImagePayload imagePayload ;
+
+        @NotNull
+        private @Valid  ImagePayload imagePayload;
 
     }
-//    -------------------- Tag DTO
+//    -------------------- Tag DTO -----------------------------------------------------
 
     @Getter
     @Setter
@@ -163,7 +168,7 @@ public abstract class DtoWrapper {
         @NotBlank
         String title;
 
-        public BasicTagDto( Long id ,String title, String slug) {
+        public BasicTagDto(Long id, String title, String slug) {
             super(slug);
             this.id = id;
             this.title = title;

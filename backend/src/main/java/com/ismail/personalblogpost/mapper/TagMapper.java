@@ -1,7 +1,7 @@
 package com.ismail.personalblogpost.mapper;
 
-import com.ismail.personalblogpost.DtoWrapper;
-import com.ismail.personalblogpost.DtoWrapper.TagWithAllRelatedArticles;
+import com.ismail.personalblogpost.dto.DtoWrapper;
+import com.ismail.personalblogpost.dto.DtoWrapper.TagWithAllRelatedArticles;
 import com.ismail.personalblogpost.Tag.Tag;
 import com.ismail.personalblogpost.projectors.TagWithCountProjector;
 import jakarta.persistence.Tuple;

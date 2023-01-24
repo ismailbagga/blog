@@ -11,7 +11,7 @@
   </div>
   <div class="mt-10">
     <h1 class="text-3xl underline underline-offset-8">Article Info</h1>
-    <form class="grid grid-cols-2 gap-10">
+    <form class="grid grid-cols-2 gap-10" (submit)="onFormSubmit($event)">
       <!-- <app-input-field></app-input-field> -->
       <app-input-field
         placeholder="Enter Title"
@@ -23,7 +23,7 @@
         placeholder="Enter Slug"
         label="Slug"
         type="text"
-        [fieldControler]="form.controls.title"
+        [fieldControler]="form.controls.slug"
       ></app-input-field>
       <app-input-field
         placeholder="Enter Description"
@@ -35,13 +35,13 @@
         placeholder="Enter Reading Time"
         label="Reading Time In Minuts"
         type="number"
-        [fieldControler]="form.controls.description"
+        [fieldControler]="form.controls.readingTime"
       ></app-input-field>
       <div class="col-span-2">
         <h1 class="text-3xl underline underline-offset-8">Article Tags</h1>
         <app-related-tags-check-field
           resourceName="Related Topics"
-          [addedResources]="form.controls.relatedTopics"
+          [addedResources]="form.controls.tagIds"
         >
         </app-related-tags-check-field>
       </div>
@@ -53,6 +53,11 @@
           [controler]="form.controls.content"
         ></app-article-content>
       </div>
+      <button
+        class="col-span-2 text-3xl py-5 my-16 bg-blue-500 hover:bg-blue-700 rounded-xl transition-all"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </section>
