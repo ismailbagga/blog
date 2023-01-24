@@ -14,7 +14,7 @@ import { UpdateArticleComponent } from './features/update-article/update-article
 import { CreateArticleComponent } from './features/create-article/create-article.component';
 import { UploadFieldComponent } from './ui/upload-field/upload-field.component';
 import { SharedModule } from '../shared/shared.module';
-import { RelaedTagCheckField } from './ui/related-tags-check-field/related-tags-check-field';
+import { RelaedTagCheckField } from './ui/related-tags-check-field/related-tags-check-field.component';
 import { TagButton } from './ui/tag-button/tag-check-button.component';
 
 @NgModule({

@@ -17,8 +17,8 @@ import {
 
 @Component({
   selector: 'app-related-tags-check-field',
-  templateUrl: './related-tags-check-field.html',
-  styleUrls: ['./related-tags-check-field.css'],
+  templateUrl: './related-tags-check-field.component.html',
+  styleUrls: ['./related-tags-check-field.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RelaedTagCheckField implements OnInit, OnDestroy {
@@ -28,10 +28,7 @@ export class RelaedTagCheckField implements OnInit, OnDestroy {
   inputControler: FormControl = new FormControl('');
   @Input('addedResources') addedCtrl!: FormControl;
   @Input('removedResources') removedCtrl!: FormControl;
-  @Input('foundTagss') set setfoundTagss(arr: any[]) {
-    const selectedIdArray = this.selectedResources.map((item) => item.id);
-    this.foundTags = arr.filter((item) => !selectedIdArray.includes(item.id));
-  }
+
   subscription: Subscription | undefined;
   term = '';
   constructor(private articleService: ArticleHttpService) {}
