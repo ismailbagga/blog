@@ -9,4 +9,42 @@
       [controler]="form.controls.image"
     ></app-upload-field>
   </div>
+  <div class="mt-10">
+    <h1 class="text-3xl underline underline-offset-8">Article Info</h1>
+    <form class="grid grid-cols-2 gap-10">
+      <!-- <app-input-field></app-input-field> -->
+      <app-input-field
+        placeholder="Enter Title"
+        label="Title"
+        type="text"
+        [fieldControler]="form.controls.title"
+      ></app-input-field>
+      <app-input-field
+        placeholder="Enter Slug"
+        label="Slug"
+        type="text"
+        [fieldControler]="form.controls.title"
+      ></app-input-field>
+      <app-input-field
+        placeholder="Enter Description"
+        label="Description"
+        type="placeholder"
+        [fieldControler]="form.controls.description"
+      ></app-input-field>
+      <app-input-field
+        placeholder="Enter Reading Time"
+        label="Reading Time In Minuts"
+        type="number"
+        [fieldControler]="form.controls.description"
+      ></app-input-field>
+      <div class="col-span-2">
+        <h1 class="text-3xl underline underline-offset-8">Article Tags</h1>
+        <app-related-tags-check-field
+          resourceName="Related Topics"
+          [addedResources]="form.controls.relatedTopics"
+        >
+        </app-related-tags-check-field>
+      </div>
+    </form>
+  </div>
 </section>

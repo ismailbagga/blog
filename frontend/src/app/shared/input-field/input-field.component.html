@@ -2,12 +2,22 @@
   <label for="password" class="text-sm font-medium">{{ label }}</label>
 
   <div class="relative mt-1">
-    <input
+    <textarea
+      *ngIf="type === 'placeholder'; else ifNotPlaceholder"
       [formControl]="fieldControler"
-      [type]="type"
-      class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-      [placeholder]="placeholder"
-    />
+      class="w-full rounded-lg border-gray-200 p-3 text-sm"
+      placeholder="Message"
+      rows="8"
+      id="message"
+    ></textarea>
+    <ng-template #ifNotPlaceholder>
+      <input
+        [formControl]="fieldControler"
+        [type]="type"
+        class="w-full rounded-lg text-black border-gray-200 p-4 pr-12 text-sm shadow-sm"
+        [placeholder]="placeholder"
+      />
+    </ng-template>
     <ng-content></ng-content>
   </div>
   <div

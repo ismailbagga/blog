@@ -14,7 +14,7 @@ import {
 export class InputFieldComponent implements OnInit {
   @Input() fieldControler!: FormControl;
   @Input() placeholder!: string;
-  @Input() type!: 'password' | 'email' | 'text';
+  @Input() type!: 'password' | 'email' | 'text' | 'placeholder' | 'number';
   @Input() label!: string;
   constructor() {}
 

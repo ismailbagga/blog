@@ -1,0 +1,35 @@
+<div class="">
+  <app-input-field
+    label="Tag"
+    type="text"
+    [fieldControler]="inputControler"
+    placeholder="Search For Tag"
+  ></app-input-field>
+  <!-- recherched-resources-container -->
+
+  <div class="mt-10">
+    <h1 class="text-xl mb-2">Tags Matching For : "{{ term }}"</h1>
+    <div
+      class="flex flex-wrap px-2 p-1 border-2 border-white overflow-y-scroll h-32 w-full rounded"
+    >
+      <app-tag-button
+        *ngFor="let item of foundTags"
+        [tag]="item"
+        (onClicked)="addResource(item.id)"
+      ></app-tag-button>
+    </div>
+  </div>
+  <!-- selected-resources-container -->
+  <div class="mt-5">
+    <h1 class="text-xl mb-2">Selected Tags</h1>
+    <div
+      class="px-2 p-1 border-2 border-white overflow-y-scroll h-32 w-full rounded"
+    >
+      <app-tag-button
+        *ngFor="let item of selectedResources"
+        [tag]="item"
+        (onClicked)="removeResource(item.id)"
+      ></app-tag-button>
+    </div>
+  </div>
+</div>

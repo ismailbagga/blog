@@ -13,6 +13,9 @@ import { DeleteModelComponent } from './ui/delete-model/delete-model.component';
 import { UpdateArticleComponent } from './features/update-article/update-article.component';
 import { CreateArticleComponent } from './features/create-article/create-article.component';
 import { UploadFieldComponent } from './ui/upload-field/upload-field.component';
+import { SharedModule } from '../shared/shared.module';
+import { RelaedTagCheckField } from './ui/related-tags-check-field/related-tags-check-field';
+import { TagButton } from './ui/tag-button/tag-check-button.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,14 @@ import { UploadFieldComponent } from './ui/upload-field/upload-field.component';
     UpdateArticleComponent,
     CreateArticleComponent,
     UploadFieldComponent,
+    RelaedTagCheckField,
+    TagButton,
   ],
-  imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
 })
 export class AdminModule {}

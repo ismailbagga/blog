@@ -70,4 +70,8 @@ export class ArticleHttpService {
   deleteArticle(articleId: number) {
     return this.http.delete(`${this.articlesEndpoint}/${articleId}`);
   }
+  searchforTagsByTitle(term: string) {
+    const url = `${this.tagsEndpoint}/search/title/${term}`;
+    return this.http.get<Tag[]>(url);
+  }
 }
