@@ -1,0 +1,3 @@
+.blog-content-link {
+  @apply text-2xl py-3 cursor-pointer mt-3 border-2 px-2 rounded-xl;
+}

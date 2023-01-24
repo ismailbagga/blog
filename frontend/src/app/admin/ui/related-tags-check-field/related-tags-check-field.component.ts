@@ -24,8 +24,8 @@ import {
 export class RelaedTagCheckField implements OnInit, OnDestroy {
   foundTags: Tag[] = [];
   selectedResources: Tag[] = [];
-  @Input('preloaded') preloadedResources: Tag[] = [];
   inputControler: FormControl = new FormControl('');
+  @Input('preloaded') preloadedResources: Tag[] = [];
   @Input('addedResources') addedCtrl!: FormControl;
   @Input('removedResources') removedCtrl!: FormControl;
 
@@ -54,8 +54,6 @@ export class RelaedTagCheckField implements OnInit, OnDestroy {
   }
 
   addResource(id: number) {
-    console.log('adding 1 ');
-
     const resourse = this.foundTags.find((item) => item.id === id);
     if (resourse) {
       this.foundTags = this.foundTags.filter((res) => res.id !== id);

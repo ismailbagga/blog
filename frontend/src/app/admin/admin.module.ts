@@ -16,6 +16,8 @@ import { UploadFieldComponent } from './ui/upload-field/upload-field.component';
 import { SharedModule } from '../shared/shared.module';
 import { RelaedTagCheckField } from './ui/related-tags-check-field/related-tags-check-field.component';
 import { TagButton } from './ui/tag-button/tag-check-button.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { ArticleContentComponent } from './ui/article-content/article-content.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +33,14 @@ import { TagButton } from './ui/tag-button/tag-check-button.component';
     UploadFieldComponent,
     RelaedTagCheckField,
     TagButton,
+    ArticleContentComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    MarkdownModule.forChild(),
   ],
 })
 export class AdminModule {}

@@ -1,5 +1,5 @@
 import { HttpRequestsIntercaptorService } from './core/intercaptors/http-requests-intercaptor.service';
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,7 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LayoutsModule,
     SharedModule,
     AuthModule,
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE,
+    }),
   ],
   providers: [
     {
