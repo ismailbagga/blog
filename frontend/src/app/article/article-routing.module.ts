@@ -4,6 +4,7 @@ import { ArticleSearchComponent } from './features/article-search/article-search
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
+import { ArticleDetailsComponent } from './features/article-details/article-details.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'blogs',
     component: ArticleSearchComponent,
+  },
+  {
+    path: 'blogs/:slug',
+    component: ArticleDetailsComponent,
   },
   {
     path: 'tags',

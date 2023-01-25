@@ -14,6 +14,9 @@ import { TagsListComponent } from './features/tags-list/tags-list.component';
 import { SearchFormComponent } from './ui/search-form/search-form.component';
 import { ArticlesOfTagListComponent } from './features/articles-of-tag-list/articles-of-tag-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { ArticleDetailsComponent } from './features/article-details/article-details.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { ArticleArrowComponent } from './ui/article-arrow/article-arrow.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { SharedModule } from '../shared/shared.module';
     TagsListComponent,
     SearchFormComponent,
     ArticlesOfTagListComponent,
+    ArticleDetailsComponent,
+    ArticleArrowComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +38,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
+    MarkdownModule.forChild(),
   ],
 })
 export class ArticleModule {}

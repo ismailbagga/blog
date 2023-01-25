@@ -35,6 +35,7 @@ export type ArticleDetails = {
   title: string;
   slug: string;
   description: string;
+  readingTime: number;
   content: string;
   url: string;
   createdAt: Date;
@@ -94,7 +95,6 @@ export type Pipelevel = 0 | 1 | 2;
   providedIn: 'root',
 })
 export class ArticleHttpService {
- 
   articlesEndpoint = `${environment.backendUrl}/api/v1/articles`;
   tagsEndpoint = `${environment.backendUrl}/api/v1/tags`;
 

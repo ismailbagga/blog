@@ -62,6 +62,7 @@ public abstract class DtoWrapper {
         private String title;
         private String slug;
         private String description;
+        private int readingTime ;
         private String url;
         private String content;
         private LocalDate createdAt;
