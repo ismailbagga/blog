@@ -13,35 +13,36 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let article of articles"
+          *ngFor="let element of elements"
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
         >
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            {{ article.id }}
+            {{ element.id }}
             <!-- Apple MacBook Pro 17" -->
           </th>
           <td class="px-6 py-4">
-            <a
-              [routerLink]="['/', 'blogs', article.slug]"
+            <button
+              (click)="onDetails.emit(element.slug)"
               routerLinkActive="router-link-active"
-              >{{ article.title }}</a
             >
+              {{ element.title }}
+            </button>
           </td>
           <td class="px-6 py-4">
-            <a
-              [routerLink]="['/admin', 'edit', 'article', article.slug]"
+            <button
+              (click)="onEdit.emit(element.slug)"
               routerLinkActive="router-link-active"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
               Edit
-            </a>
+            </button>
           </td>
           <td class="px-6 py-4">
             <button
-              (click)="showModel(article.id)"
+              (click)="showModel(element.id)"
               class="font-medium text-red-600 dark:text-red-500 hover:underline"
             >
               Delete

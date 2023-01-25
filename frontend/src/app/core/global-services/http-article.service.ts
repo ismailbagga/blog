@@ -239,8 +239,15 @@ export class ArticleHttpService {
     const url = `${this.tagsEndpoint}/related/${slug}/articles`;
     return this.http.get<TagWithArticles>(url);
   }
+  findAllTags() {
+    return this.http.get<Tag[]>(`${this.tagsEndpoint}/basic`);
+  }
+
   deleteArticle(articleId: number) {
     return this.http.delete(`${this.articlesEndpoint}/${articleId}`);
+  }
+  deleteTag(tagId: number) {
+    return this.http.delete(`${this.tagsEndpoint}/id/${tagId}`);
   }
   searchforTagsByTitle(term: string) {
     const url = `${this.tagsEndpoint}/search/title/${term}`;

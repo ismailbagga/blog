@@ -5,6 +5,7 @@ import {
   ArticleHttpService,
   ArticlePreview,
 } from 'src/app/core/global-services/http-article.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './admin-articles-list.component.html',
@@ -14,7 +15,10 @@ export class AdminArticlesListComponent implements OnInit {
   articleTitleCtrl = new FormControl();
   articles: ArticlePreview[] = [];
   filteredArticles: ArticlePreview[] = [];
-  constructor(private articleService: ArticleHttpService) {
+  constructor(
+    private articleService: ArticleHttpService,
+    private router: Router
+  ) {
     articleService.fetchLatestArticles().subscribe((result) => {
       this.articles = result;
       this.filteredArticles = this.articles;
@@ -29,7 +33,10 @@ export class AdminArticlesListComponent implements OnInit {
       );
     });
   }
-
+  onEdit(slug: string) {
+    console.log(slug);
+    this.router.navigateByUrl('/admin/edit/article/' + slug);
+  }
   deleteArticle(articleId: number) {
     const self = this;
     this.articleService.deleteArticle(articleId).subscribe({
@@ -42,6 +49,7 @@ export class AdminArticlesListComponent implements OnInit {
         if (err instanceof HttpErrorResponse) {
           if (err.status === HttpStatusCode.NotFound) {
             alert('there is article with this id');
+            return;
           }
         }
         alert('Ops Something Went Wrong');

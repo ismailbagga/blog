@@ -7,7 +7,11 @@ import {
   Output,
 } from '@angular/core';
 import { ArticlePreview } from 'src/app/core/global-services/http-article.service';
-
+export type AdminElement = {
+  id: number;
+  title: string;
+  slug: string;
+};
 @Component({
   selector: 'app-admin-table',
   templateUrl: './admin-table.component.html',
@@ -15,8 +19,10 @@ import { ArticlePreview } from 'src/app/core/global-services/http-article.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminTableComponent implements OnInit {
-  @Input() articles: ArticlePreview[] = [];
+  @Input() elements: AdminElement[] = [];
   @Output() onDelete = new EventEmitter<number>();
+  @Output() onDetails = new EventEmitter<string>();
+  @Output() onEdit = new EventEmitter<string>();
   selectedArticleId: number | null = null;
   isModelHidden = true;
   constructor() {}

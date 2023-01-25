@@ -102,4 +102,8 @@ public class TagService {
     }
 
 
+    public List<DtoWrapper.BasicTagDto> findAllTagsAsBasicDto() {
+        var tags = tagRepository.findAll() ;
+        return tagMapper.convertToBasicTags(tags)  ;
+    }
 }

@@ -27,6 +27,11 @@ public class TagController {
 
         return ResponseEntity.ok(tagService.findAllTags()) ;
     }
+    @GetMapping("/basic")
+    public ResponseEntity<List<DtoWrapper.BasicTagDto>> findAllTagsAsBasicDto() {
+
+        return ResponseEntity.ok(tagService.findAllTagsAsBasicDto()) ;
+    }
 //    ------------------ Single Tag ----------------
     @GetMapping("/details/id/{tagId}")
     public ResponseEntity<DtoWrapper.BasicTagDto> findTagById(@PathVariable("tagId") Long tagId) {
