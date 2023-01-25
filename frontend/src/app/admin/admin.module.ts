@@ -18,6 +18,7 @@ import { RelaedTagCheckField } from './ui/related-tags-check-field/related-tags-
 import { TagButton } from './ui/tag-button/tag-check-button.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArticleContentComponent } from './ui/article-content/article-content.component';
+import { EditArticleComponent } from './features/edit-article/edit-article.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ArticleContentComponent } from './ui/article-content/article-content.co
     RelaedTagCheckField,
     TagButton,
     ArticleContentComponent,
+    EditArticleComponent,
   ],
   imports: [
     CommonModule,

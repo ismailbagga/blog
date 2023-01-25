@@ -97,7 +97,12 @@ public abstract class DtoWrapper {
         Integer count;
         List<ArticlePreview> articlePreviews;
     }
-
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static  class ArticleSlug {
+        String slug ;
+    }
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter

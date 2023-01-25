@@ -41,9 +41,9 @@ public class Article {
     @UpdateTimestamp
     private LocalDate updatedAt;
     @OneToOne(orphanRemoval = true
-            ,mappedBy = "article",fetch = FetchType.LAZY ,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+            , mappedBy = "article", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @LazyToOne(value = LazyToOneOption.NO_PROXY)
-    MarkdownContent markdownContent ;
+    MarkdownContent markdownContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "next_article_id"))
@@ -58,4 +58,12 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", nullable = false)
     )
     private Set<Tag> relatedTags;
+
+    public String getContent() {
+        return this.markdownContent.getContent();
+    }
+
+    public String getUrl() {
+        return "https://res.cloudinary.com/dphwfvqgn/image/upload/v1670503030/"+url ;
+    }
 }

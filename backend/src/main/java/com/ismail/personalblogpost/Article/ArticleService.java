@@ -53,7 +53,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public String saveArticle(DtoWrapper.ArticleUploadDto articleUploadDto) {
+    public DtoWrapper.ArticleSlug saveArticle(DtoWrapper.ArticleUploadDto articleUploadDto) {
         articleUploadDto.setSlug(Utils.OnEmptySlug(articleUploadDto.getSlug(), articleUploadDto.getTitle()));
         var imagePayload = articleUploadDto.getImagePayload() ;
 
@@ -70,11 +70,11 @@ public class ArticleService {
         }
 //        markdownRepository.save(article.getMarkdownContent()) ;
         articleRepository.save(article);
-        return article.getSlug();
+        return new DtoWrapper.ArticleSlug(article.getSlug());
     }
 
     @Transactional
-    public ArticlePreview updateArticleMetaData(Long articleId, DtoWrapper.ArticleMetaData articleMetaData) {
+    public DtoWrapper.ArticleSlug updateArticleMetaData(Long articleId, DtoWrapper.ArticleMetaData articleMetaData) {
         var article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
 //        articleMetaData.setSlug(Utils.OnEmptySlug(articleMetaData.getSlug(), articleMetaData.getTitle()));
@@ -99,10 +99,34 @@ public class ArticleService {
             article.getRelatedTags().addAll(tagsToAdd);
         }
         articleMapper.updateArticle(articleMetaData, article);
-        return articleMapper.convertToArticlePreview(articleRepository.save(article));
+//        return articleMapper.convertToArticlePreview(articleRepository.save(article));
+        return new DtoWrapper.ArticleSlug(article.getSlug()) ;
     }
 
+    @Transactional
+    public void updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
+        var content = markdownRepository.findByIdJPQL(articleId)
+                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
+        content.setContent(articleContent.getContent());
+        markdownRepository.save(content);
 
+    }
+
+    @Transactional
+    public DtoWrapper.ArticleSlug updateArticleImage(Long articleId, DtoWrapper.ImagePayload payload) {
+        cloudinaryImageService.validate(payload.getVersion(), payload.getUrl(), payload.getSignature());
+
+
+        var article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
+//        TODO: Remove The Old Urls
+        var oldUrl = article.getUrl();
+        article.setUrl(payload.getUrl());
+        articleRepository.save(article);
+//        return articleMapper.convertToArticlePreview(article);
+        return new DtoWrapper.ArticleSlug(article.getSlug()) ;
+
+    }
     @Transactional
     public void deleteArticle(Long articleId) {
         var article = articleRepository.findById(articleId)
@@ -181,28 +205,5 @@ public class ArticleService {
                 .build();
     }
 
-    @Transactional
-    public void updateArticleContent(Long articleId, DtoWrapper.ArticleContent articleContent) {
-        var content = markdownRepository.findByIdJPQL(articleId)
-                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
-        content.setContent(articleContent.getContent());
-        markdownRepository.save(content);
 
-    }
-
-    @Transactional
-    public ArticlePreview updateArticleImage(Long articleId, DtoWrapper.ImagePayload payload) {
-        cloudinaryImageService.validate(payload.getVersion(), payload.getUrl(), payload.getSignature());
-
-
-        var article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new APIException("there is no article with this id", HttpStatus.NOT_FOUND));
-//        TODO: Remove The Old Urls
-        var oldUrl = article.getUrl();
-        article.setUrl(payload.getUrl());
-        articleRepository.save(article);
-        return articleMapper.convertToArticlePreview(article);
-
-
-    }
 }

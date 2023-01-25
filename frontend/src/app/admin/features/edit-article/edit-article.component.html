@@ -1,17 +1,25 @@
-<section class="mt-10 px-5">
-  <div>
+<app-loading-spinner *ngIf="!article"></app-loading-spinner>
+<section class="mt-10 px-5" *ngIf="article">
+  <div class="">
     <h1 class="text-3xl underline underline-offset-8">Upload Article Image</h1>
     <app-upload-field
       title="Blog Profile Picture"
       imageFor="Blog Image"
       class="xl:col-span-2"
+      [defaulSrc]="article.url"
       [maxSizeInMb]="2"
-      [controler]="form.controls.image"
+      [controler]="imageField"
     ></app-upload-field>
+    <button
+      class="block mx-auto text-xl mt-10 border-2 px-5 py-2"
+      (click)="editImage()"
+    >
+      Upload Image
+    </button>
   </div>
   <div class="mt-10">
     <h1 class="text-3xl underline underline-offset-8">Article Info</h1>
-    <form class="grid grid-cols-2 gap-10" (submit)="onFormSubmit($event)">
+    <div class="grid grid-cols-2 gap-10">
       <!-- <app-input-field></app-input-field> -->
       <app-input-field
         placeholder="Enter Title"
@@ -41,24 +49,33 @@
         <h1 class="text-3xl underline underline-offset-8">Article Tags</h1>
         <app-related-tags-check-field
           resourceName="Related Topics"
-          [addedResources]="form.controls.tagIds"
+          [addedResources]="form.controls.tagsToAdd"
+          [preloaded]="article.relatedTags"
+          [removedResources]="form.controls.tagsToRemove"
         >
         </app-related-tags-check-field>
       </div>
+
+      <button
+        class="block mx-auto text-xl mt-10 border-2 px-5 py-2 col-span-2"
+        (click)="editArticleContent()"
+      >
+        Edit Article Content
+      </button>
+
       <div class="col-span-2">
         <h1 class="text-3xl underline underline-offset-8 mb-10">
           Article Content
         </h1>
-        <app-article-content
-          [controler]="form.controls.content"
-        ></app-article-content>
+        <app-article-content [controler]="contentField"></app-article-content>
       </div>
       <button
-        class="col-span-2 text-3xl py-5 my-16 bg-blue-500 hover:bg-blue-700 rounded-xl transition-all"
+        class="block mx-auto text-xl mt-10 border-2 px-5 py-2 col-span-2 mb-10"
+        (click)="editArticleMarkdown()"
       >
-        Submit
+        Edit Article Markdown
       </button>
-    </form>
+    </div>
   </div>
   <app-toast *ngIf="toastInfo" [type]="toastInfo.type" (close)="closeToast()">
     <h1 *ngIf="toastInfo.type === 'SUCCESS'">

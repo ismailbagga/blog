@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CloudinaryResponse, ImageService } from './image.service';
 import { Observable, catchError, mergeMap, switchMap } from 'rxjs';
-import { handlingArticleUploadExceptions } from '../utils/ExceptionsMappers';
+import {
+  handlingArticleImageEditExceptions,
+  handlingArticleMetaDataException,
+  handlingArticleUploadExceptions,
+} from '../utils/ExceptionsMappers';
 // ---------------- Types -------------------
 export type ArticlePreviwWithResultCount = {
   articlePreviews: ArticlePreview[];
@@ -12,12 +16,32 @@ export type ArticlePreviwWithResultCount = {
 export type ArticlePreview = {
   id: number;
   title: string;
-  slug: number;
-  description: number;
+  slug: string;
+  description: string;
   url: string;
   createdAt: Date;
   updatedAt: Date;
   relatedTags: Set<Tag>;
+};
+export type BasicArticle = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  url: string;
+};
+export type ArticleDetails = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  content: string;
+  url: string;
+  createdAt: Date;
+  updatedAt: Date;
+  relatedTags: Tag[];
+  prevArticle: BasicArticle;
+  nextArticle: BasicArticle;
 };
 export type Tag = {
   id: number;
@@ -56,7 +80,15 @@ export type ArticleUploadDto = {
   content: string;
   imagePayload: { version: string; signature: string; url: string };
 };
-export type ArticleSlug = { articleSlug: string };
+export type ArticleContentEditDto = {
+  tagsToAdd: number[];
+  tagsToRemove: number[];
+  readingTime: number;
+  title: string;
+  slug: string;
+  description: string;
+};
+export type ArticleSlug = { slug: string };
 export type Pipelevel = 0 | 1 | 2;
 @Injectable({
   providedIn: 'root',
@@ -65,7 +97,72 @@ export class ArticleHttpService {
   articlesEndpoint = `${environment.backendUrl}/api/v1/articles`;
   tagsEndpoint = `${environment.backendUrl}/api/v1/tags`;
 
+  findArticleBySlug(slug: string) {
+    return this.http.get<ArticleDetails>(
+      `${this.articlesEndpoint}/details/${slug}`
+    );
+  }
   constructor(private http: HttpClient, private imageService: ImageService) {}
+  editArticleContent(form: ArticleContentEditDto, articleId: number) {
+    return this.http
+      .put<ArticleSlug>(`${this.articlesEndpoint}/meta-data/${articleId}`, form)
+      .pipe(
+        catchError((err) => {
+          throw handlingArticleMetaDataException(err);
+        })
+      );
+  }
+  editArticleMarkdown(content: String, articleId: number) {
+    return this.http
+      .put<void>(`${this.articlesEndpoint}/content/${articleId}`, { content })
+      .pipe(
+        catchError((err) => {
+          throw handlingArticleMetaDataException(err);
+        })
+      );
+  }
+  editArticleImage(
+    file: File,
+    articleId: number,
+    forceSignatureFetch = false,
+    recursiveCallCount = 0
+  ) {
+    let pipeLevel: Pipelevel = 0;
+    const observable: Observable<ArticleSlug> = this.imageService
+      .getSignature(forceSignatureFetch)
+      .pipe(
+        // saving image
+        mergeMap((signatureResponse) => {
+          pipeLevel = 1;
+          return this.imageService.saveImage(file, signatureResponse);
+        }),
+        // saving topic in backend
+        mergeMap((cloudinaryResponse: CloudinaryResponse) => {
+          pipeLevel = 2;
+          const dto = {
+            signature: cloudinaryResponse.signature,
+            version: cloudinaryResponse.version,
+            url: cloudinaryResponse.public_id,
+          };
+
+          return this.http.put<ArticleSlug>(
+            this.articlesEndpoint + '/image/' + articleId,
+            dto
+          );
+        }),
+        catchError((error) => {
+          if (this.imageService.shouldIRefreshSignature(error))
+            return this.editArticleImage(
+              file,
+              articleId,
+              true,
+              recursiveCallCount + 1
+            );
+          throw handlingArticleImageEditExceptions(error, pipeLevel);
+        })
+      );
+    return observable;
+  }
   uploadArticle(
     form: ArticleFormValues,
     forceSignatureFetch = false,

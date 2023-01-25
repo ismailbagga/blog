@@ -62,17 +62,17 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Map> uploadArticle(@Valid @RequestBody ArticleUploadDto articleUploadDto,
-                                             BindingResult bindingResult) {
+    public ResponseEntity<DtoWrapper.ArticleSlug> uploadArticle(@Valid @RequestBody ArticleUploadDto articleUploadDto,
+                                                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new APIException(Utils.mapErrorToMap(bindingResult), HttpStatus.BAD_REQUEST);
         }
         var articleSlug = articleService.saveArticle(articleUploadDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("articleSlug", articleSlug));
+        return ResponseEntity.status(HttpStatus.CREATED).body(articleSlug);
     }
 
     @PutMapping("/meta-data/{articleId}")
-    public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleMetaData(@PathVariable Long articleId,
+    public ResponseEntity<DtoWrapper.ArticleSlug> updateArticleMetaData(@PathVariable Long articleId,
                                                                           @Valid @RequestBody DtoWrapper.ArticleMetaData articleMetaData,
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -83,7 +83,7 @@ public class ArticleController {
         return ResponseEntity.ok(article);
     }
     @PutMapping("/image/{articleId}")
-    public ResponseEntity<DtoWrapper.ArticlePreview> updateArticleImage(@PathVariable Long articleId,
+    public ResponseEntity<DtoWrapper.ArticleSlug> updateArticleImage(@PathVariable Long articleId,
                                                                           @Valid @RequestBody DtoWrapper.ImagePayload articleMetaData,
                                                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminTagListComponent } from './features/admin-tag-list/admin-tag-list.component';
 import { CreateArticleComponent } from './features/create-article/create-article.component';
+import { EditArticleComponent } from './features/edit-article/edit-article.component';
 
 const routes: Routes = [
   {
@@ -24,8 +25,8 @@ const routes: Routes = [
         component: AdminTagListComponent,
       },
       {
-        path: 'update/article/:slug',
-        component: AdminTagListComponent,
+        path: 'edit/article/:slug',
+        component: EditArticleComponent,
       },
       {
         path: 'create/article',

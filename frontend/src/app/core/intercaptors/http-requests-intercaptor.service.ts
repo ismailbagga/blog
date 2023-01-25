@@ -51,7 +51,6 @@ export class HttpRequestsIntercaptorService implements HttpInterceptor {
         ) {
           this.onLoginSuccess(response);
         }
-        console.log(response);
       })
     );
   }

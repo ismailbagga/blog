@@ -1,0 +1,8 @@
+.movedown {
+  @apply translate-y-0;
+}
+.toast-container {
+  transition-duration: 300ms;
+  transition-property: all;
+  transition-timing-function: linear;
+}

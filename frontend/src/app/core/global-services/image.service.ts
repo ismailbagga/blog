@@ -17,7 +17,6 @@ export const CLOUDINARY_SIGNATURE = 'cloudinary-signature';
 export type CloudinaryResponse = {
   signature: string;
   version: string;
-  original_filename: string;
   public_id: string;
 };
 

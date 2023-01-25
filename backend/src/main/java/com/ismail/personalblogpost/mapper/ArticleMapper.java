@@ -29,7 +29,6 @@ public interface ArticleMapper {
      @Mapping(target = "url",expression = "java(tuple.get(\"url\",String.class))")
      @Mapping(target = "readingTime",expression = "java(tuple.get(\"reading_time\",Integer.class))")
      @Mapping(target = "createdAt",expression = "java(LocalDateTime.ofInstant(tuple.get(\"created_at\",java.time.Instant.class),java.time.Clock.systemUTC().getZone()))")
-//     Loca
      @Mapping(target = "updatedAt",expression = "java(tuple.get(\"updated_at\", java.sql.Date.class).toLocalDate())")
      DtoWrapper.ArticlePreview convertTupleToArticlePreview(Tuple tuple) ;
 

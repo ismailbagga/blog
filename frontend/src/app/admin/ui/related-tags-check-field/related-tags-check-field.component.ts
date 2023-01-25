@@ -48,7 +48,10 @@ export class RelaedTagCheckField implements OnInit, OnDestroy {
     console.log('searching for');
     if (term.trim() === '') return;
     this.articleService.searchforTagsByTitle(term).subscribe((response) => {
-      this.foundTags = response;
+      const selectedTagsId = this.selectedResources.map((t) => t.id);
+      this.foundTags = response.filter(
+        (tag) => !selectedTagsId.includes(tag.id)
+      );
       // this.changeDetectionRef.detectChanges();
     });
   }
@@ -66,7 +69,7 @@ export class RelaedTagCheckField implements OnInit, OnDestroy {
     const resourse = this.selectedResources.find((item) => item.id === id);
     if (resourse) {
       this.selectedResources = this.selectedResources.filter(
-        (res) => res.id !== id
+        (res) => res.id !== resourse.id
       );
       if (resourse.title.toLowerCase().includes(this.term.toLowerCase())) {
         this.foundTags.push(resourse);
