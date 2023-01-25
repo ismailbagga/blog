@@ -10,7 +10,6 @@ import { SearchFieldComponent } from './ui/search-field/search-field.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminTableComponent } from './ui/admin-table/admin-table.component';
 import { DeleteModelComponent } from './ui/delete-model/delete-model.component';
-import { UpdateArticleComponent } from './features/update-article/update-article.component';
 import { CreateArticleComponent } from './features/create-article/create-article.component';
 import { UploadFieldComponent } from './ui/upload-field/upload-field.component';
 import { SharedModule } from '../shared/shared.module';
@@ -19,6 +18,8 @@ import { TagButton } from './ui/tag-button/tag-check-button.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArticleContentComponent } from './ui/article-content/article-content.component';
 import { EditArticleComponent } from './features/edit-article/edit-article.component';
+import { EditTagComponent } from './features/edit-tag/edit-tag.component';
+import { CreateTagComponent } from './features/create-tag/create-tag.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +30,14 @@ import { EditArticleComponent } from './features/edit-article/edit-article.compo
     SearchFieldComponent,
     AdminTableComponent,
     DeleteModelComponent,
-    UpdateArticleComponent,
     CreateArticleComponent,
     UploadFieldComponent,
     RelaedTagCheckField,
     TagButton,
     ArticleContentComponent,
     EditArticleComponent,
+    EditTagComponent,
+    CreateTagComponent,
   ],
   imports: [
     CommonModule,

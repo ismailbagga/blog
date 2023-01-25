@@ -1,0 +1,34 @@
+<section class="mt-10 px-5">
+  <div class="mt-10">
+    <h1 class="text-3xl underline underline-offset-8">Article Info</h1>
+    <form class="grid grid-cols-2 gap-10" (submit)="onFormSubmit($event)">
+      <!-- <app-input-field></app-input-field> -->
+      <app-input-field
+        placeholder="Enter Title"
+        label="Title"
+        type="text"
+        [fieldControler]="form.controls.title"
+      ></app-input-field>
+      <app-input-field
+        placeholder="Enter Slug"
+        label="Slug"
+        type="text"
+        [fieldControler]="form.controls.slug"
+      ></app-input-field>
+
+      <button
+        class="mx-auto col-span-2 text-3xl px-10 border-1 py-3 my-16 bg-blue-500 hover:bg-blue-700 rounded-xl transition-all"
+      >
+        Save Tag
+      </button>
+    </form>
+  </div>
+  <app-toast *ngIf="toastInfo" [type]="toastInfo.type" (close)="closeToast()">
+    <h1 *ngIf="toastInfo.type === 'SUCCESS'">
+      <a [routerLink]="['/', 'tags', toastInfo.data]">Click Hre to View tag </a>
+    </h1>
+    <h1 *ngIf="toastInfo.type === 'ERROR'">
+      {{ toastInfo.data }}
+    </h1>
+  </app-toast>
+</section>

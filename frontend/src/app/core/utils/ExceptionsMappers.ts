@@ -55,3 +55,16 @@ export function handlingArticleMetaDataException(error: Error) {
     return new Error(error.error.message);
   return new Error('problem ocuure while saving article  data');
 }
+
+export function tagCreateErrorMapper(error: Error) {
+  if (!(error instanceof HttpErrorResponse))
+    return new Error('problem ocuure while saving tag  data');
+
+  if (error.status === HttpStatusCode.BadRequest)
+    return new Error('some filed are missing');
+  if (error.status === HttpStatusCode.NotFound)
+    return new Error(error.error.message);
+  if (error.status === HttpStatusCode.Conflict)
+    return new Error(error.error.message);
+  return new Error('problem ocuure while saving tag  data');
+}

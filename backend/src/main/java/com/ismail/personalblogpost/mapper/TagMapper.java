@@ -20,7 +20,7 @@ public interface TagMapper {
     @Mapping(target = "slug",expression = "java(tuple.get(\"tag_slug\",String.class))")
     DtoWrapper.BasicTagDto convertTupleToTagDto(Tuple tuple) ;
     TagWithAllRelatedArticles convertToTagWithArticles(Tag tag);
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Tag convertToTagDtoToTag(DtoWrapper.BasicTagDto tagDto);
 
     DtoWrapper.BasicTagDto convertToBasicTag(Tag tag) ;

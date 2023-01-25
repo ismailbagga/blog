@@ -19,6 +19,8 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     Optional<Tag> findBySlugWithArticles(@Param("slug") String slug) ;
     @Query("SELECT tag FROM Tag tag WHERE tag.slug=:slug")
     Optional<Tag> findBySlug(@Param("slug") String slug) ;
+    @Query("SELECT tag FROM Tag tag WHERE tag.title=:title")
+    Optional<Tag> findByTitle(@Param("title") String title) ;
     @Query("SELECT tag.id as id , tag.slug as slug , tag.title as title , size(tag.relatedArticles) as count FROM Tag  tag ")
     List<TagWithCountProjector> findAllTagsWithCount() ;
     List<Tag> findByTitleOrSlug(String title , String slug) ;

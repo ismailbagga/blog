@@ -5,6 +5,8 @@ import { AdminComponent } from './admin.component';
 import { AdminTagListComponent } from './features/admin-tag-list/admin-tag-list.component';
 import { CreateArticleComponent } from './features/create-article/create-article.component';
 import { EditArticleComponent } from './features/edit-article/edit-article.component';
+import { EditTagComponent } from './features/edit-tag/edit-tag.component';
+import { CreateTagComponent } from './features/create-tag/create-tag.component';
 
 const routes: Routes = [
   {
@@ -33,8 +35,12 @@ const routes: Routes = [
         component: CreateArticleComponent,
       },
       {
-        path: 'update/tags/:slug',
-        component: AdminTagListComponent,
+        path: 'edit/tag/:slug',
+        component: EditTagComponent,
+      },
+      {
+        path: 'create/tag',
+        component: CreateTagComponent,
       },
     ],
   },

@@ -27,6 +27,7 @@ public class TagService {
         tagDto.setSlug(Utils.OnEmptySlug(tagDto.getSlug(),tagDto.getTitle()));
         validateDuplicateTag(tagDto.getTitle(), tagDto.getSlug());
         // in case id was passed
+        tagDto.setId(null);
         var tag = tagMapper.convertToTagDtoToTag(tagDto) ;
         return tagRepository.save(tag);
     }
@@ -93,8 +94,20 @@ public class TagService {
     public DtoWrapper.UpdateTagDto updateTag(DtoWrapper.UpdateTagDto dto) {
         var tag = tagRepository.findById(dto.getId())
                 .orElseThrow(() -> new APIException("there is no tag with this id", HttpStatus.NOT_FOUND));
+        var isTitleChanged = !tag.getTitle().equals(dto.getTitle()) ;
+        var isSlugChanged = !tag.getSlug().equals(dto.getSlug()) ;
         dto.setSlug(Utils.OnEmptySlug(dto.getSlug(),dto.getTitle()));
-        validateDuplicateTag(dto.getTitle(),dto.getSlug());
+        if ( isTitleChanged && isSlugChanged ) validateDuplicateTag(dto.getTitle(),dto.getSlug());
+        else if (isSlugChanged) {
+            tagRepository.findBySlug(dto.getSlug()).ifPresent((res)-> {
+                throw new APIException("this slug is taken ", HttpStatus.CONFLICT) ;
+            }) ;
+        }
+        else  if (isTitleChanged) {
+            tagRepository.findByTitle(dto.getSlug()).ifPresent((res)-> {
+                        throw new APIException("this title is taken", HttpStatus.CONFLICT) ;
+                    }) ;
+        }
         tagMapper.updateTag(dto,tag);
         var savedTag = tagRepository.save(tag) ;
         return dto ;
