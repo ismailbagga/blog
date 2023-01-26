@@ -1,32 +1,35 @@
 .next-article-preview,
 .prev-article-preview {
   transition: opacity 0.3s linear, translate 0s linear;
-  @apply w-[calc(100vw-100px)] md:w-[30rem] lg:w-[40rem]  opacity-0  px-8 py-10 absolute  -translate-x-[100vw] top-0 -translate-y-[calc(100%+30px)] bg-gray-100 rounded-xl;
+  @apply w-[calc(100vw-100px)] md:w-[30rem] lg:w-[40rem]  opacity-0 -translate-y-[100vw]  px-5 pt-10 pb-5 absolute   -translate-x-[2px] top-[10] bg-gray-100 rounded-xl;
 }
 .next-article-preview p,
 .prev-article-preview p {
-  @apply line-clamp-5 md:line-clamp-none;
+  @apply line-clamp-5 md:line-clamp-none text-gray-600  text-sm md:text-base font-medium mt-1;
 }
 .next-article-preview h1,
 .prev-article-preview h1 {
-  @apply text-xl md:text-4xl;
+  @apply text-base sm:text-lg font-bold text-black;
 }
 .arrow-image {
   @apply w-10 lg:w-16 group-hover:scale-105 transition-all;
 }
-a:hover ~ .prev-article-preview,
+
+a:hover ~ .prev-article-preview {
+  @apply opacity-100 block translate-y-[15px];
+}
 a:hover ~ .next-article-preview {
-  @apply opacity-100 block translate-x-0;
+  @apply opacity-100 block translate-y-[15px];
 }
 
 .next-article-preview::before {
   content: "";
-  @apply block absolute left-5 -bottom-[35px] rotate-45  -z-10 -translate-y-full bg-gray-100 h-[25px] w-[25px];
+  @apply block absolute left-4 top-[15px] rotate-45  -z-10 -translate-y-full bg-gray-100 h-[25px] w-[25px];
 }
 
 .prev-article-preview {
 }
 .prev-article-preview::before {
   content: "";
-  @apply block absolute right-5 -bottom-[35px] rotate-45  -z-10 -translate-y-full bg-gray-100 h-[25px] w-[25px];
+  @apply block absolute right-4 top-[15px] rotate-45  -z-10 -translate-y-full bg-gray-100 h-[25px] w-[25px];
 }

@@ -1,38 +1,40 @@
-<span
-  class="block fixed left-0 xl:left-10 bottom-[20rem] cursor-pointer"
-  *ngIf="nextArticle"
->
-  <div class="relative">
-    <a class="group" [routerLink]="['/', 'blogs', nextArticle.slug]">
-      <img class="arrow-image" src="../../../../assets/icons/left-arrow.svg" />
-    </a>
-    <div class="next-article-preview">
-      <h1 class="text-4xl font-bold text-black">{{ nextArticle.title }}</h1>
-      <p class="text-gray-500 text-xl font-medium mt-5">
-        {{ nextArticle.description }} Lorem ipsum dolor sit amet consectetur,
-        adipisicing elit. Mollitia quia repellendus alias atque ipsa eum optio.
-        Nobis consequuntur labore excepturi, rem repudiandae quisquam id magnam
-        tempora enim assumenda commodi nisi.
-      </p>
+<nav class="flex sticky top-0 flex-row my-5 ">
+  <div class="block w-10" *ngIf="nextArticle">
+    <div class="relative">
+      <a class="group" [routerLink]="['/', 'blogs', nextArticle.slug]">
+        <img
+          class="h-10 arrow-image"
+          src="../../../../assets/icons/left-arrow.svg"
+        />
+      </a>
+      <div class="next-article-preview">
+        <h1 class="">{{ nextArticle.title }}</h1>
+        <p class="">
+          {{ nextArticle.description }} Lorem ipsum dolor sit amet consectetur,
+          adipisicing elit. Mollitia quia repellendus alias atque ipsa eum
+          optio. Nobis consequuntur labore excepturi, rem repudiandae quisquam
+          id magnam tempora enim assumenda commodi nisi.
+        </p>
+      </div>
     </div>
   </div>
-</span>
-<span
-  class="block fixed right-0 xl:right-10 bottom-[20rem] cursor-pointer"
-  *ngIf="prevArticle"
->
-  <div class="relative">
-    <a class="bg-black w-20" [routerLink]="['/', 'blogs', prevArticle.slug]">
-      <img class="arrow-image" src="../../../../assets/icons/right-arrow.svg" />
-    </a>
-    <div class="prev-article-preview right-0">
-      <h1 class="text-4xl font-bold text-black">{{ prevArticle.title }}</h1>
-      <p class="text-gray-500 text-xl font-medium mt-5">
-        {{ prevArticle.description }} Lorem ipsum dolor sit amet consectetur,
-        adipisicing elit. Mollitia quia repellendus alias atque ipsa eum optio.
-        Nobis consequuntur labore excepturi, rem repudiandae quisquam id magnam
-        tempora enim assumenda commodi nisi.
-      </p>
+  <div class="block  w-10 ml-auto" *ngIf="prevArticle">
+    <div class="relative">
+      <a class="" [routerLink]="['/', 'blogs', prevArticle.slug]">
+        <img
+          class="h-10 arrow-image"
+          src="../../../../assets/icons/right-arrow.svg"
+        />
+      </a>
+      <div class="prev-article-preview right-0">
+        <h1 class="">{{ prevArticle.title }}</h1>
+        <p class="">
+          {{ prevArticle.description }} Lorem ipsum dolor sit amet consectetur,
+          adipisicing elit. Mollitia quia repellendus alias atque ipsa eum
+          optio. Nobis consequuntur labore excepturi, rem repudiandae quisquam
+          id magnam tempora enim assumenda commodi nisi.
+        </p>
+      </div>
     </div>
   </div>
-</span>
+</nav>

@@ -1,5 +1,9 @@
 <app-loading-spinner *ngIf="!article"></app-loading-spinner>
 <article *ngIf="article" class="px-6 mt-10">
+  <app-article-arrow
+    [nextArticle]="article.nextArticle"
+    [prevArticle]="article.prevArticle"
+  ></app-article-arrow>
   <!-- Meta Data -->
   <div class="flex flex-col lg:flex-row">
     <!-- -------------- Article Info----------------- -->
@@ -65,9 +69,4 @@
       [data]="article.content"
     ></markdown>
   </main>
-
-  <app-article-arrow
-    [nextArticle]="article.nextArticle"
-    [prevArticle]="article.prevArticle"
-  ></app-article-arrow>
 </article>
