@@ -16,7 +16,11 @@ export class SubscriptionFormComponent implements OnInit {
   }
   onSubmit(event: Event) {
     event.preventDefault();
-    if (this.emailCtrl.invalid) return;
+    if (this.emailCtrl.invalid) {
+      this.emailCtrl.markAsDirty();
+      this.emailCtrl.markAsTouched();
+      return;
+    }
     console.log(this.emailCtrl.value);
 
     console.log('subscribing this email');

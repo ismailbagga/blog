@@ -63,7 +63,7 @@ public class CustomUsernameAndPasswordAuthFilter extends UsernamePasswordAuthent
         var tokens = jwToken.createJwtTokens(principal);
         var cookie = new Cookie(JwToken.REFRESH_TOKEN_COOKIE, tokens.refreshToken());
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         response.setStatus(HttpStatus.OK.value());
         response.setHeader(JwToken.AUTHORIZATION, tokens.refreshToken());
         response.addCookie(cookie);

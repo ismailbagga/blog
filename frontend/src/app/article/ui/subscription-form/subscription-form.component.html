@@ -1,27 +1,33 @@
 <form action="" class="" (submit)="onSubmit($event)">
   <!--  ------------------ Label    ------------------------------>
-  <h1 class="text-5xl text-center lg:text-start font-bold leading-snug">
+  <h1
+    class="text-5xl text-center lg:text-start font-extrabold leading-[3.5rem]"
+  >
     <span class="underline">Subscribe</span> Now <br />To Get Notify when
     <br />
     <span>Article</span> is Uploaded
   </h1>
   <div
-    class="flex sm:border-2 flex-col sm:flex-row input-contaienr mx-auto lg:mx-0 sm:w-fit mt-5 rounded-xl border-0 dark:border-darkerBlue"
+    class="input-contaienr mx-auto lg:mx-0 mt-5 w-fit rounded-xl border-0 dark:border-darkerBlue"
   >
     <input
       [formControl]="emailCtrl"
-      class="sm:rounded-l-xl text-center sm:text-start w-full border-2 sm:border-0 outline-none h-10 text-black sm:border-none px-5 placeholder:text-gray-700"
+      class="text-center sm:text-start border-2 outline-none h-10 text-black px-5 placeholder:text-gray-700"
       placeholder="Please Enter Your Email here"
     />
     <button
-      class="bg-black px-5 mt-5 sm:mt-0 h-10 text-white text-md font-semibold"
+      class="block mx-auto lg:mx-0 bg-black text-white dark:bg-white dark:text-black rounded hover:bg-black/90 px-5 mt-3 h-10 text-md font-semibold"
     >
       Subscribe
     </button>
   </div>
   <div
     class="errors text-center lg:text-start text-red-700 mt-5"
-    *ngIf="emailCtrl.errors && emailCtrl.dirty"
+    [ngClass]="
+      emailCtrl.errors && emailCtrl.dirty && emailCtrl.touched
+        ? 'visible'
+        : 'invisible'
+    "
   >
     <p *ngIf="emailCtrl.hasError('required')">Please Enter You Email</p>
     <p *ngIf="emailCtrl.hasError('email')">Please Enter A Valid Email</p>

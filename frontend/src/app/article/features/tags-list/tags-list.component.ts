@@ -16,8 +16,11 @@ export class TagsListComponent implements OnInit {
     private articleHttpService: ArticleHttpService,
     private router: Router
   ) {
-    articleHttpService.fetchAllTagWithCount().subscribe((result) => {
-      this.tags = result;
+    const self = this;
+    articleHttpService.fetchAllTagWithCount().subscribe({
+      next(result) {
+        self.tags = result;
+      },
     });
   }
 

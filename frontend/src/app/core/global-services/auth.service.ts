@@ -1,7 +1,7 @@
 import { error } from 'console';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError } from 'rxjs';
+import { BehaviorSubject, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -40,6 +40,11 @@ export class AuthService {
     );
   }
   refreshingToken() {
+    if (document.cookie.indexOf('SECURITY') === -1) {
+      this.alterAuthState(false);
+      return of([]);
+    }
+
     return this.http.post(this.refreshTokenEndpoint, {}).pipe(
       catchError((err) => {
         this.alterAuthState(false);

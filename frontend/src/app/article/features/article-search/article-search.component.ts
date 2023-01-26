@@ -127,7 +127,7 @@ export class ArticleSearchComponent implements OnInit {
             queryParams: { p: maxPages },
             preserveFragment: true,
           });
-        } else this.router.navigateByUrl('/');
+        } else this.router.navigateByUrl('/404');
       }
     }
     return of({ waiting: true });

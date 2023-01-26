@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { of, switchMap, EMPTY, map, catchError, Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ArticleHttpService,
   ArticlePreview,
@@ -20,12 +20,12 @@ export class ArticlesOfTagListComponent implements OnInit {
   loading = true;
   constructor(
     private articleService: ArticleHttpService,
-    activeRoute: ActivatedRoute
+    activeRoute: ActivatedRoute,
+    router: Router
   ) {
     activeRoute.params
       .pipe(
         map((params) => {
-          console.log(params);
           return params['slug'];
         }),
         switchMap((slug) => {
@@ -35,6 +35,7 @@ export class ArticlesOfTagListComponent implements OnInit {
           throw new Error('somethinf went wrong');
         }),
         catchError((error) => {
+          router.navigateByUrl('/404');
           console.warn(error);
           return EMPTY;
         })
@@ -53,7 +54,6 @@ export class ArticlesOfTagListComponent implements OnInit {
       this.filteredArticle = this.articles.filter((ref) =>
         ref.title.toLowerCase().includes(text)
       );
-      console.log(text);
     });
   }
 }

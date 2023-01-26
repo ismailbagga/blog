@@ -1,0 +1,3 @@
+.nav-social-media img {
+  @apply w-10 cursor-pointer mr-5;
+}

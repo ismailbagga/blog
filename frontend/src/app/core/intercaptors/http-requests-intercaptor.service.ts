@@ -30,8 +30,6 @@ export class HttpRequestsIntercaptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(req.url);
-
     if (!this.ENDPOINT_TO_NOT_ALTER.includes(req.url)) {
       const accessToken = this.authService.accessToken;
       if (accessToken !== '') {
