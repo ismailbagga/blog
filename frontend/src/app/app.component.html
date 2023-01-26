@@ -1,8 +1,11 @@
 <section
-  class="dark:bg-darkerBlue bg-white min-h-[100rem] dark:text-white text-darkerBlue"
+  class="dark:bg-darkerBlue bg-white min-h-screen dark:text-white text-darkerBlue"
 >
-  <main class="max-w-7xl mx-auto">
-    <app-nav></app-nav>
-    <router-outlet></router-outlet>
+  <main class="flex justify-between min-h-screen flex-col max-w-7xl mx-auto">
+    <div>
+      <app-nav></app-nav>
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
   </main>
 </section>

@@ -15,10 +15,10 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     ArticleModule,
     LayoutsModule,
     SharedModule,
+    AppRoutingModule,
     AuthModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,

@@ -4,6 +4,7 @@ import {
   CanActivate,
   CanLoad,
   Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree,
@@ -15,7 +16,7 @@ import { AuthService } from '../global-services/auth.service';
   providedIn: 'root',
 })
 export class LoginStateGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -37,8 +38,8 @@ export class LoginStateGuard implements CanActivate, CanLoad {
     return this.authService.stateAsObserbavle().pipe(
       skipWhile((state) => state === null),
       map((value) => {
-        console.log(value);
         if (value) return true;
+        this.router.navigateByUrl('404');
         return false;
       }),
       take(1)

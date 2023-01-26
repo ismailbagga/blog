@@ -1,6 +1,6 @@
 import { LoginStateGuard } from './core/guard/login-state.guard';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, CanLoad } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {

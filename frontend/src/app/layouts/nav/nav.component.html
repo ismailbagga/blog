@@ -1,8 +1,12 @@
 <header class="w-full">
   <nav class="flex flex-row items-center h-24 pt-10 px-5 py-2 mx-auto">
     <div class="flex items-center space-x-3 logo-image">
-      <img src="../../../assets/images/logo.jpg" class="w-12 rounded-full" />
-      <h1 class="text-sm font-semibold">Ismail Bagga</h1>
+      <a [routerLink]="['/']"
+        ><img src="../../../assets/images/logo.jpg" class="w-12 rounded-full"
+      /></a>
+      <a [routerLink]="['/']"
+        ><h1 class="text-sm font-semibold">Ismail Bagga</h1></a
+      >
     </div>
 
     <ul class="hidden sm:flex flex-row items-center ml-auto">
