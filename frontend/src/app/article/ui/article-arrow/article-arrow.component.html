@@ -6,9 +6,7 @@
     <a class="group" [routerLink]="['/', 'blogs', nextArticle.slug]">
       <img class="arrow-image" src="../../../../assets/icons/left-arrow.svg" />
     </a>
-    <div
-      class="next-article-preview px-8 py-10 absolute opacity-0 group-hover:opacity-[1] transition-all top-0 -translate-y-[calc(100%+30px)] w-[40rem] z-50 bg-gray-100 rounded-xl"
-    >
+    <div class="next-article-preview">
       <h1 class="text-4xl font-bold text-black">{{ nextArticle.title }}</h1>
       <p class="text-gray-500 text-xl font-medium mt-5">
         {{ nextArticle.description }} Lorem ipsum dolor sit amet consectetur,
@@ -17,9 +15,6 @@
         tempora enim assumenda commodi nisi.
       </p>
     </div>
-    <!-- <span
-      class="block absolute left-5 -top-2 rotate-45 invisible group-hover:visible delay-500 -translate-y-full bg-gray-400 h-[55px] w-[55px]"
-    ></span> -->
   </div>
 </span>
 <span
@@ -27,12 +22,10 @@
   *ngIf="prevArticle"
 >
   <div class="relative">
-    <a class="group" [routerLink]="['/', 'blogs', prevArticle.slug]">
+    <a class="bg-black w-20" [routerLink]="['/', 'blogs', prevArticle.slug]">
       <img class="arrow-image" src="../../../../assets/icons/right-arrow.svg" />
     </a>
-    <div
-      class="prev-article-preview px-8 py-10 absolute opacity-0 group-hover:opacity-[1] transition-all top-0 right-0 -translate-y-[calc(100%+30px)] w-[40rem] z-50 bg-gray-100 rounded-xl"
-    >
+    <div class="prev-article-preview right-0">
       <h1 class="text-4xl font-bold text-black">{{ prevArticle.title }}</h1>
       <p class="text-gray-500 text-xl font-medium mt-5">
         {{ prevArticle.description }} Lorem ipsum dolor sit amet consectetur,
@@ -41,8 +34,5 @@
         tempora enim assumenda commodi nisi.
       </p>
     </div>
-    <!-- <span
-      class="block absolute left-5 -top-2 rotate-45 invisible group-hover:visible delay-500 -translate-y-full bg-gray-400 h-[55px] w-[55px]"
-    ></span> -->
   </div>
 </span>

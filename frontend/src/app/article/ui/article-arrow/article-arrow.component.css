@@ -1,6 +1,7 @@
 .next-article-preview,
 .prev-article-preview {
-  @apply w-[calc(100vw-100px)] md:w-[30rem] lg:w-[40rem];
+  transition: opacity 0.3s linear, translate 0s linear;
+  @apply w-[calc(100vw-100px)] md:w-[30rem] lg:w-[40rem]  opacity-0  px-8 py-10 absolute  -translate-x-[100vw] top-0 -translate-y-[calc(100%+30px)] bg-gray-100 rounded-xl;
 }
 .next-article-preview p,
 .prev-article-preview p {
@@ -13,11 +14,9 @@
 .arrow-image {
   @apply w-10 lg:w-16 group-hover:scale-105 transition-all;
 }
-a:hover ~ .prev-article-preview {
-  @apply opacity-100;
-}
+a:hover ~ .prev-article-preview,
 a:hover ~ .next-article-preview {
-  @apply opacity-100;
+  @apply opacity-100 block translate-x-0;
 }
 
 .next-article-preview::before {
